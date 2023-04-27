@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 20px;
+  color: #202124;
+}
+.logo-url {
+  background-image: url(https://kfcvn-static.cognizantorderserv.com/images/web/kfc-logo.svg?v=5.0);
+  width: 78px;
+  height: 78px;
+}
+.logo-cart {
+  background-position: -53px 1px;
+}
+.logo-empty-cart {
+  background-position: -7px 1px;
+}
+a {
+  text-decoration: none;
+}
+@layer components {
+  .text-hover a {
+    position: relative;
+  }
+  .text-hover a::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    bottom: 0;
+    right: 0;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  .text-hover:hover a::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  .text-active a::after {
+    transform: scaleX(1);
+  }
+}
+.roboto {
+  font-family: "Roboto", sans-serif;
+}
