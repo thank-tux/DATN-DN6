@@ -159,6 +159,13 @@ export const getItem = async (name, id) => {
   try {
     const docRef = doc(db, name, id);
     const docSnap = await getDoc(docRef);
-    return docSnap;
-  } catch (error) {}
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.log("hehe", error);
+  }
 };

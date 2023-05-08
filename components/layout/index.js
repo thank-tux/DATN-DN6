@@ -1,10 +1,16 @@
 import Header from "../header";
+import Head from "next/head";
+import Footer from "../footer";
 
 export default function Layout({ children }) {
   return (
-    <div>
+    <main>
+      <Head>
+        <title>Welcome to KFC</title>
+      </Head>
       <Header />
       {children}
-    </div>
+      <Footer />
+    </main>
   );
 }

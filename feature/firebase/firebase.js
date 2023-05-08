@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyCZNXQmy6l0DXuqA4_2-ejvgeifkqNOqnY",
   authDomain: "kfc-project-1292f.firebaseapp.com",
   projectId: "kfc-project-1292f",

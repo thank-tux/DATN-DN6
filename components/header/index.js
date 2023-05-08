@@ -1,11 +1,17 @@
 import Link from "next/link";
 import NavMenu from "./nav-menu";
+import Menu from "./menu";
+import { useState } from "react";
+import Image from "next/image";
+import Logo from "/assets/logo.svg";
 
 export default function Header() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="z-[99] sticky top-0 w-[100vw] border-b-[1px] border-[#ccc]">
+    <div className="relative bg-white z-[99] sticky top-0 w-[100vw] border-b-[1px] border-[#ccc]">
       <div className="container m-auto flex flex-row justify-between items-center p-4">
-        <ul className="flex flex-row items-center">
+        <Image className="md:hidden" src={Logo} width={70} height={30} alt="" />
+        <ul className="flex-row items-center hidden md:flex">
           <li>
             <Link href="/" className="block logo-url"></Link>
           </li>
@@ -42,8 +48,9 @@ export default function Header() {
             </Link>
           </li>
         </ul>
-        <NavMenu />
+        <NavMenu callback={() => setShow(!show)} />
       </div>
+      <Menu show={show} callback={() => setShow(!show)} />
     </div>
   );
 }
