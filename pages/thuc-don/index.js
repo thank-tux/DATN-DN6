@@ -29,7 +29,7 @@ export default function ThucDon() {
       <NavScroll type={types} />
       {types.map((item, index) => {
         return (
-          <div key={index} className="container m-auto" id={item}>
+          <div key={index} className="container m-auto pt-20" id={item}>
             <h2 className="text-[28px] font-bold uppercase p-4">{item}</h2>
             <ListBody>
               {products.map(

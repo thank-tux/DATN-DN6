@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link as LinkScroll } from "react-scroll";
+import { getType } from "@/utils";
 import Slider from "react-slick";
 
 export default function NavScroll({ type }) {
@@ -13,8 +14,8 @@ export default function NavScroll({ type }) {
     slidesToScroll: 1,
   };
   return (
-    <div className="fixed w-[100%] flex bg-white z-[10] border-b-[1px] text-xl text-[rgba(0,0,0,.5)] uppercase font-bold tracking-tight py-4">
-      <ul className="overflow-x-hidden">
+    <div className="fixed flex flex-grow m-auto flex bg-white z-[10] border-b-[1px] text-xl text-[rgba(0,0,0,.5)] uppercase font-bold tracking-tight py-4">
+      <ul className="overflow-x-hidden flex oswald">
         {type.map((item, index) => {
           return (
             <li

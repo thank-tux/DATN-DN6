@@ -206,6 +206,6 @@ input[type="number"] {
 .animation-loader::before {
   width: 32px;
   height: 32px;
-  border-color: #fff #fff transparent transparent;
+  border-color: red red transparent transparent;
   animation: rotation 1.5s linear infinite;
 }

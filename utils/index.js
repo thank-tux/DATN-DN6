@@ -1,8 +1,8 @@
-export const upserCase = (text) => {
+export const upserCase = (text = "") => {
   return text.replace(/\s+/g, "").toUpperCase();
 };
 export const getType = (data) => {
-  const newData = data.map((item) => {
+  const newData = Array.from(data).map((item) => {
     return upserCase(item.type);
   });
   return Array.from(new Set(newData));
