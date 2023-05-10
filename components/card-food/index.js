@@ -2,14 +2,12 @@ import AuthContext from "@/feature/auth-context";
 import Image from "next/image";
 import { useContext } from "react";
 import { useRouter } from "next/router";
-import CartContext from "@/feature/cart-context";
 import axios from "axios";
 
 export default function CardFood({ description, name, img, price, id }) {
-  const { userInfo } = useContext(AuthContext);
-  const { increment, quantityInfo } = useContext(CartContext);
+  const { userInfo, quantityCart, increment } = useContext(AuthContext);
   const handleAdd = () => {
-    increment(quantityInfo);
+    increment(quantityCart);
     const res = axios.post("/api/cart");
   };
   const router = useRouter();

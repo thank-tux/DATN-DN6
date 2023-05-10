@@ -23,7 +23,7 @@ export default function Header() {
               Thực đơn
             </Link>
           </li>
-          <li className="text-hover px-4">
+          {/* <li className="text-hover px-4">
             <Link
               className="text-md uppercase roboto font-extrabold"
               href="/thuc-don"
@@ -46,7 +46,7 @@ export default function Header() {
             >
               Thực đơn
             </Link>
-          </li>
+          </li> */}
         </ul>
         <NavMenu callback={() => setShow(!show)} />
       </div>
