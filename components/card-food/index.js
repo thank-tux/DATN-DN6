@@ -2,11 +2,15 @@ import AuthContext from "@/feature/auth-context";
 import Image from "next/image";
 import { useContext } from "react";
 import { useRouter } from "next/router";
+import CartContext from "@/feature/cart-context";
+import axios from "axios";
 
 export default function CardFood({ description, name, img, price, id }) {
   const { userInfo } = useContext(AuthContext);
-  const handleAdd = (id) => {
-    console.log(id);
+  const { increment, quantityInfo } = useContext(CartContext);
+  const handleAdd = () => {
+    increment(quantityInfo);
+    const res = axios.post("/api/cart");
   };
   const router = useRouter();
   return (
@@ -29,7 +33,7 @@ export default function CardFood({ description, name, img, price, id }) {
       </p>
       <div className="absolute left-0 bottom-[10px] px-2 pb-2 w-[100%]">
         <button
-          onClick={userInfo ? () => handleAdd(id) : () => router.push("/login")}
+          onClick={userInfo ? handleAdd : () => router.push("/login")}
           className={`btn-shadow w-[100%] ${
             userInfo ? "bg-[#e4002b]" : "bg-[#ccc]"
           } rounded-full py-2 cursor-pointer font-bold text-white`}
