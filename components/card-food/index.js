@@ -6,9 +6,19 @@ import axios from "axios";
 
 export default function CardFood({ description, name, img, price, id }) {
   const { userInfo, quantityCart, increment } = useContext(AuthContext);
-  const handleAdd = () => {
+  const handleAdd = async () => {
+    const data = {
+      description,
+      name,
+      img,
+      price,
+      id,
+      uid: userInfo.uid,
+      quantity: 1,
+    };
+    const res = axios.post("/api/cart", data);
+    console.log(await res);
     increment(quantityCart);
-    const res = axios.post("/api/cart");
   };
   const router = useRouter();
   return (

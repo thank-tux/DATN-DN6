@@ -14,7 +14,7 @@ const AuthContext = createContext({
 
 export function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(null);
   const increment = (value) => {
     setQuantity(value + 1);
   };
@@ -26,8 +26,13 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        let total = 0;
         setUser(user);
         const res = await getItem("cart", user.uid);
+        for (const key in res.arrayCart) {
+          total += res.arrayCart[key].quantity;
+        }
+        setQuantity(total);
       } else {
         setUser(null);
       }

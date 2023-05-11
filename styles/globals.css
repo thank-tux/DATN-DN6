@@ -209,3 +209,9 @@ input[type="number"] {
   border-color: red red transparent transparent;
   animation: rotation 1.5s linear infinite;
 }
+.bg-empty {
+  background-position: top 20px right 20px;
+  background: url(https://kfcvn-static.cognizantorderserv.com/images/web/empty-cart.png?v=5.0)
+    no-repeat #f8f7f5 bottom;
+  /* background-size: 74%; */
+}
