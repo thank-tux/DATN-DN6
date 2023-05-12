@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 export default function Header() {
   const router = useRouter();
   const [show, setShow] = useState(false);
-  console.log(router.pathname);
+  const pathname = router.pathname.split("/");
   return (
     <div className="relative bg-white z-[99] sticky top-0 w-[100vw] border-b-[1px] border-[#ccc]">
       <div className="container m-auto flex flex-row justify-between items-center p-4">
@@ -20,7 +20,11 @@ export default function Header() {
           </li>
           <li className="text-hover px-4">
             <Link
-              className="text-md uppercase roboto font-extrabold"
+              className={`text-md uppercase roboto font-extrabold ${
+                pathname[1] === "thuc-don"
+                  ? "underline decoration-red-500 underline-offset-2"
+                  : ""
+              }`}
               href="/thuc-don"
             >
               Thực đơn

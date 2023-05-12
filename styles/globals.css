@@ -24,6 +24,9 @@ a {
   text-decoration: none;
 }
 @layer components {
+  .scale_1 {
+    transform: scaleX(1);
+  }
   .icon-avatar {
     background: url(https://kfcvn-static.cognizantorderserv.com/images/web/sprite.png?v=5.0)
       no-repeat;

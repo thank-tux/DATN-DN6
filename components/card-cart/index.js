@@ -42,12 +42,14 @@ export default function CardCart({
         </div>
         <span className="cursor-pointer hover:underline roboto">xóa</span>
       </div>
-      <Counter
-        price={price}
-        quantity={value}
-        decrement={handleDecrement}
-        increment={handleIncrement}
-      />
+      <div className="absolute">
+        <Counter
+          price={price}
+          quantity={value}
+          decrement={handleDecrement}
+          increment={handleIncrement}
+        />
+      </div>
     </div>
   );
 }

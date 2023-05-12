@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Link from "next/link";
 
 export default function CardFood({ description, name, img, price, id }) {
   const { userInfo, quantityCart, increment } = useContext(AuthContext);
@@ -33,7 +34,9 @@ export default function CardFood({ description, name, img, price, id }) {
         />
       </div>
       <div className="roboto flex flex-row items-baseline justify-between px-2 text-xl font-semibold capitalize">
-        <span>{name}</span>
+        <span>
+          <Link href={`/thuc-don/order/${id}`}>{name}</Link>
+        </span>
         <span>{price}₫</span>
       </div>
       <p className="font-medium px-2 py-3 text-justify break-words pb-14 text-[14px] text-[#444]">

@@ -1,8 +1,14 @@
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 
-export default function Counter({ quantity, increment, decrement, price }) {
+export default function Counter({
+  quantity,
+  increment,
+  block = false,
+  decrement,
+  price,
+}) {
   return (
-    <div className="absolute flex items-center right-5 top-[46%]">
+    <div className="flex items-center right-5 top-[46%]">
       <AiOutlineMinusCircle
         className={`cursor-pointer w-7 h-7 ${
           quantity === 1 ? "text-[#ccc]" : ""
@@ -14,7 +20,7 @@ export default function Counter({ quantity, increment, decrement, price }) {
         className="cursor-pointer w-7 h-7"
         onClick={increment}
       />
-      <span>{price * quantity} ₫</span>
+      <span className={`${block ? "hidden" : ""}`}>{price * quantity} ₫</span>
     </div>
   );
 }
