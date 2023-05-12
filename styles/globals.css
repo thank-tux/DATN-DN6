@@ -24,6 +24,11 @@ a {
   text-decoration: none;
 }
 @layer components {
+  .icon-avatar {
+    background: url(https://kfcvn-static.cognizantorderserv.com/images/web/sprite.png?v=5.0)
+      no-repeat;
+    background-position: -10px -805px;
+  }
   .text-hover a {
     position: relative;
   }
@@ -109,11 +114,7 @@ li {
 .list-shadow {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
 }
-.icon-avatar {
-  background: url(https://kfcvn-static.cognizantorderserv.com/images/web/sprite.png?v=5.0)
-    no-repeat;
-  background-position: -10px -805px;
-}
+
 .btn-shadow {
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);

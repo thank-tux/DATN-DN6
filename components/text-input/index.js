@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-export default function TextInput({ value, callback, name, type = "text" }) {
+export default function TextInput({
+  value,
+  callback,
+  name,
+  type = "text",
+  disabled = false,
+}) {
   const [show, setShow] = useState(false);
   const handleOnChange = (text) => {
     callback(text.target.value);
@@ -26,8 +32,11 @@ export default function TextInput({ value, callback, name, type = "text" }) {
         onChange={handleOnChange}
         type={show ? "text" : type}
         required
+        disabled={disabled}
       />
-      <span>{name}</span>
+      <span className={`${disabled && "translate-y-[-20px] text-[10px]"}`}>
+        {name}
+      </span>
       {type === "password" && <HiddenPassword />}
     </div>
   );

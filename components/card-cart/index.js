@@ -22,21 +22,25 @@ export default function CardCart({
   return (
     <div className="flex  p-3 box-shadow my-4 relative rounded">
       <Image src={img} alt="" width={200} height={200} />
-      <div className="p-4">
+      <div className="p-4 flex flex-col justify-between">
         <h2 className="font-bold capitalize">{name}</h2>
         <div>
           <span
             onClick={() => setShow(!show)}
-            className="flex text-xs text-[#ccc] mt-2 cursor-pointer"
+            className="flex text-xs text-[#333] mt-2 cursor-pointer flex items-center"
           >
-            Xem chi tiết <IoIosArrowDown />
+            Xem chi tiết
+            <IoIosArrowDown className={`w-5 h-5 ${!show && "rotate-180"}`} />
           </span>
           <p
-            className={`${show ? "hidden" : "block"} w-[45%] text-[#ccc] block`}
+            className={`${
+              show ? "hidden" : "block"
+            } w-[45%] text-[#999] text-[15px] block`}
           >
             {description}
           </p>
         </div>
+        <span className="cursor-pointer hover:underline roboto">xóa</span>
       </div>
       <Counter
         price={price}

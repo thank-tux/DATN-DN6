@@ -4,9 +4,12 @@ import Menu from "./menu";
 import { useState } from "react";
 import Image from "next/image";
 import Logo from "/assets/logo.svg";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
   const [show, setShow] = useState(false);
+  console.log(router.pathname);
   return (
     <div className="relative bg-white z-[99] sticky top-0 w-[100vw] border-b-[1px] border-[#ccc]">
       <div className="container m-auto flex flex-row justify-between items-center p-4">
