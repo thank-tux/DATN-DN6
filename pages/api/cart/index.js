@@ -29,7 +29,7 @@ export default async function handle(req, res) {
     }
     try {
       await addDataWithID("cart", uid, { arrayCart });
-      res.status(200).json({ result: "success" });
+      res.status(200).json({ result: "success", output: arrayCart });
     } catch (error) {
       console.error(error);
       res.status(500).json(arrayCart, { message: "Something went wrong" });

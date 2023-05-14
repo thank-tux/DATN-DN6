@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Loader from "@/components/loader";
 import Image from "next/image";
 import Counter from "@/components/counter";
+import AuthContext from "@/feature/auth-context";
 
 export default function Order() {
+  const { userInfo } = useContext(AuthContext);
   const router = useRouter();
   const { id } = router.query;
   const [product, setProduct] = useState(null);
@@ -17,14 +19,21 @@ export default function Order() {
     setProduct(data);
     setLoading(true);
   };
+  const handleAddItem = async () => {
+    const data = { ...product, id, quantity, uid: userInfo.uid };
+    console.log(data);
+    const res = await axios.post("/api/cart", data);
+    const result = res.data;
+    console.log(result);
+  };
   useEffect(() => {
     fecthData();
-  }, []);
+  }, [id]);
   if (!loading) {
     return <Loader />;
   }
   return (
-    <div className="container flex flex-between m-auto">
+    <div className="container flex flex-between items-center m-auto min-h-screen">
       <div className="w-[60%] p-10 flex items-center">
         <Image
           src={product.img}
@@ -48,20 +57,25 @@ export default function Order() {
               <span>Món chính : </span>
               <span className="font-bold">{product.name}</span>
             </li>
-            <li className="flex">
+            <li className="  items-center justify-center">
               <span>Mô tả : </span>
-              <span className="font-bold">{product.description}</span>
+              <span className="font-bold ">{product.description}</span>
             </li>
           </ul>
           <hr />
-          <div>
+          <div className="flex justify-between">
             <Counter
               decrement={() => setQuantity(quantity - 1)}
               increment={() => setQuantity(quantity + 1)}
               quantity={quantity}
               block={true}
             />
-            <button>Thêm vào giỏ {quantity * product.price}</button>
+            <button
+              onClick={handleAddItem}
+              className="bg-red-600 p-4 rounded-full my-4 text-sm text-white btn-shadow roboto font-bold"
+            >
+              Thêm vào giỏ {quantity * product.price}₫
+            </button>
           </div>
         </div>
       </div>

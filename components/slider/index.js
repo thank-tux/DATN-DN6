@@ -26,8 +26,9 @@ export default function SliderPanes() {
           return (
             <Image
               key={item.id}
-              width={2000}
-              height={2000}
+              width={0}
+              height={0}
+              sizes="100vw"
               src={item.link}
               alt=""
             />

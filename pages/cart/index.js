@@ -54,7 +54,7 @@ export default function Cart() {
           <>
             <div className="w-[60%]">
               {cart.map((item) => {
-                return <CardCart key={item} {...item} />;
+                return <CardCart key={item.id} {...item} />;
               })}
             </div>
             <div className="w-[38%]">

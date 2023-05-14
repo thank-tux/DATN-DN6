@@ -15,12 +15,12 @@ const AuthContext = createContext({
 export function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [quantity, setQuantity] = useState(null);
-  const increment = (value) => {
-    setQuantity(value + 1);
+  const increment = (value, count = 1) => {
+    setQuantity(value + count);
   };
 
-  const decrement = (value) => {
-    setQuantity(value - 1);
+  const decrement = (value, count = 1) => {
+    setQuantity(value - count);
   };
 
   useEffect(() => {
