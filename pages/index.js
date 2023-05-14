@@ -44,7 +44,7 @@ export default function Home() {
         <ListBody>
           {foods &&
             foods.map((item, index) => {
-              if (item.type === "combo nhóm") {
+              if (item.type === "2") {
                 return <CardFood key={index} {...item} />;
               }
             })}

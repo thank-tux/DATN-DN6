@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
+import Image from "next/image";
 
 export default function SliderPanes() {
   const [data, setData] = useState([]);
@@ -22,7 +23,15 @@ export default function SliderPanes() {
     <div style={{ width: "100%" }}>
       <Slider {...settings}>
         {data.map((item) => {
-          return <img key={item.id} src={item.link} alt="" />;
+          return (
+            <Image
+              key={item.id}
+              width={2000}
+              height={2000}
+              src={item.link}
+              alt=""
+            />
+          );
         })}
       </Slider>
     </div>

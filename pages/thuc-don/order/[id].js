@@ -8,7 +8,6 @@ import Counter from "@/components/counter";
 export default function Order() {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -18,12 +17,9 @@ export default function Order() {
     setProduct(data);
     setLoading(true);
   };
-
-  console.log(product);
-
   useEffect(() => {
     fecthData();
-  }, [id]);
+  }, []);
   if (!loading) {
     return <Loader />;
   }
@@ -31,9 +27,7 @@ export default function Order() {
     <div className="container flex flex-between m-auto">
       <div className="w-[60%] p-10 flex items-center">
         <Image
-          src={
-            "https://static.kfcvietnam.com.vn/images/items/lg/GaOcQue-A.jpg?v=LnnvDL"
-          }
+          src={product.img}
           className="w-[500px] h-[100%]"
           width={1000}
           height={1000}
