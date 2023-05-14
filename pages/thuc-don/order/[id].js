@@ -13,7 +13,7 @@ export default function Order() {
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const fecthData = async () => {
-    const res = await axios.post("/api/item", { id });
+    const res = await axios.post("/api/item", { id, name: "products" });
     const data = await res.data;
     setProduct(data);
     setLoading(true);

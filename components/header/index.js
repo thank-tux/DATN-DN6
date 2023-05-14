@@ -30,30 +30,18 @@ export default function Header() {
               Thực đơn
             </Link>
           </li>
-          {/* <li className="text-hover px-4">
-            <Link
-              className="text-md uppercase roboto font-extrabold"
-              href="/thuc-don"
-            >
-              Thực đơn
-            </Link>
-          </li>
           <li className="text-hover px-4">
             <Link
-              className="text-md uppercase roboto font-extrabold"
-              href="/thuc-don"
+              className={`text-md uppercase roboto font-extrabold ${
+                pathname[1] === "kfc-tabs"
+                  ? "underline decoration-red-500 underline-offset-2"
+                  : ""
+              }`}
+              href="/kfc-tabs/our-story"
             >
-              Thực đơn
+              tin tức
             </Link>
           </li>
-          <li className="text-hover px-4">
-            <Link
-              className="text-md uppercase roboto font-extrabold"
-              href="/thuc-don"
-            >
-              Thực đơn
-            </Link>
-          </li> */}
         </ul>
         <NavMenu callback={() => setShow(!show)} />
       </div>

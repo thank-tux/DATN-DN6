@@ -29,12 +29,17 @@ export function AuthContextProvider({ children }) {
         let total = 0;
         setUser(user);
         const res = await getItem("cart", user.uid);
-        for (const key in res.arrayCart) {
-          total += res.arrayCart[key].quantity;
+        if (res !== null) {
+          for (const key in res.arrayCart) {
+            total += res.arrayCart[key].quantity;
+          }
+          setQuantity(total);
+        } else {
+          setQuantity(0);
         }
-        setQuantity(total);
       } else {
         setUser(null);
+        setQuantity(0);
       }
     });
 

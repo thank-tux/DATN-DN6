@@ -1,24 +1,37 @@
 import { useState, useEffect, useContext } from "react";
 import AuthContext from "@/feature/auth-context";
-import { getItem } from "@/feature/firebase/firebaseAuth";
 import Loader from "@/components/loader";
 import CardCart from "@/components/card-cart";
 import EmptyCart from "@/components/empty-cart";
+import axios from "axios";
 
 export default function Cart() {
   const { userInfo } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [emptyCart, setEmptyCart] = useState(false);
 
   const fecthData = async () => {
     let value = 0;
-    const data = await getItem("cart", userInfo.uid);
-    data.arrayCart.forEach((element) => {
-      value += element.quantity * element.price;
+    const res = await axios.post("/api/item", {
+      id: userInfo.uid,
+      name: "cart",
     });
-    setTotal(value);
-    setCart(data.arrayCart);
+    const data = res.data;
+    if (data) {
+      if (data.arrayCart.length === 0) {
+        setEmptyCart(true);
+      } else {
+        data.arrayCart.forEach((element) => {
+          value += element.quantity * element.price;
+        });
+        setTotal(value);
+      }
+      setCart(data.arrayCart);
+    } else {
+      setEmptyCart(true);
+    }
     setLoading(true);
   };
   useEffect(() => {
@@ -35,7 +48,7 @@ export default function Cart() {
         <h2 className="oswald text-4xl py-4  block">Giỏ hàng của tôi</h2>
       </div>
       <div className="flex justify-between">
-        {cart.length === 0 ? (
+        {emptyCart ? (
           <EmptyCart />
         ) : (
           <>

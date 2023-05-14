@@ -10,9 +10,6 @@ const nextConfig = {
       "raw.githubusercontent.com",
     ],
   },
-  experimental: {
-    appDir: true,
-  },
 };
 
 module.exports = nextConfig;

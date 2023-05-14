@@ -4,8 +4,8 @@ export default async function handle(req, res) {
   const { method } = req;
   if (method === "POST") {
     try {
-      const { id } = req.body;
-      const data = await getItem("products", id);
+      const { id, name } = req.body;
+      const data = await getItem(name, id);
       res.status(200).json(data);
     } catch (error) {
       console.error(error);

@@ -20,7 +20,9 @@ export default function Counter({
         className="cursor-pointer w-7 h-7"
         onClick={increment}
       />
-      <span className={`${block ? "hidden" : ""}`}>{price * quantity} ₫</span>
+      <span className={`${block ? "hidden" : ""} font-bold roboto`}>
+        {price * quantity} ₫
+      </span>
     </div>
   );
 }

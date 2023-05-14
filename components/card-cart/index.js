@@ -42,7 +42,7 @@ export default function CardCart({
         </div>
         <span className="cursor-pointer hover:underline roboto">xóa</span>
       </div>
-      <div className="absolute">
+      <div className="absolute right-4 top-[50%]">
         <Counter
           price={price}
           quantity={value}
