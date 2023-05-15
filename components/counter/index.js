@@ -1,4 +1,5 @@
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import { formatMoney } from "@/utils";
 
 export default function Counter({
   quantity,
@@ -20,8 +21,8 @@ export default function Counter({
         className="cursor-pointer w-7 h-7"
         onClick={increment}
       />
-      <span className={`${block ? "hidden" : ""} font-bold roboto`}>
-        {price * quantity} ₫
+      <span className={`${block ? "hidden" : ""} font-bold roboto ml-10`}>
+        {formatMoney(price * quantity)} ₫
       </span>
     </div>
   );

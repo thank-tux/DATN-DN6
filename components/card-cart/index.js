@@ -1,7 +1,10 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Counter from "../counter";
 import { IoIosArrowDown } from "react-icons/io";
+import { AiOutlineLoading } from "react-icons/ai";
+import AuthContext from "@/feature/auth-context";
+import axios from "axios";
 
 export default function CardCart({
   img,
@@ -10,17 +13,58 @@ export default function CardCart({
   name,
   price,
   quantity,
+  callback,
 }) {
+  const { increment, decrement, userInfo } = useContext(AuthContext);
   const [show, setShow] = useState(true);
   const [value, setValue] = useState(quantity);
-  const handleDecrement = () => {
+  const [loading, setLoading] = useState(false);
+  const handleDecrement = async () => {
+    setLoading(true);
+    const data = {
+      description,
+      name,
+      img,
+      price,
+      id,
+      uid: userInfo.uid,
+      quantity: -1,
+    };
+    const res = await axios.post("/api/cart", data);
+    const { result } = await res.data;
+    if (result === "success") {
+      setLoading(false);
+    }
     setValue(value - 1);
+    decrement();
+    callback(-price);
   };
-  const handleIncrement = () => {
+  const handleIncrement = async () => {
+    setLoading(true);
+    const data = {
+      description,
+      name,
+      img,
+      price,
+      id,
+      uid: userInfo.uid,
+      quantity: 1,
+    };
+    const res = await axios.post("/api/cart", data);
+    const { result } = await res.data;
+    if (result === "success") {
+      setLoading(false);
+    }
+    increment();
     setValue(value + 1);
+    callback(price);
   };
   return (
-    <div className="flex  p-3 box-shadow my-4 relative rounded">
+    <div
+      className={`flex relative p-3 box-shadow my-4 relative rounded ${
+        loading ? "opacity-50" : ""
+      }`}
+    >
       <Image src={img} alt="" width={200} height={200} />
       <div className="p-4 flex flex-col justify-between">
         <h2 className="font-bold capitalize">{name}</h2>
@@ -48,6 +92,15 @@ export default function CardCart({
           quantity={value}
           decrement={handleDecrement}
           increment={handleIncrement}
+        />
+      </div>
+      <div
+        className={`${
+          !loading ? "hidden" : "block"
+        } absolute top-0 left-0 w-[100%] h-[100%] flex items-center justify-center`}
+      >
+        <AiOutlineLoading
+          className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-red-500`}
         />
       </div>
     </div>

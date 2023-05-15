@@ -7,7 +7,7 @@ import Counter from "@/components/counter";
 import AuthContext from "@/feature/auth-context";
 
 export default function Order() {
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, increment } = useContext(AuthContext);
   const router = useRouter();
   const { id } = router.query;
   const [product, setProduct] = useState(null);
@@ -21,10 +21,12 @@ export default function Order() {
   };
   const handleAddItem = async () => {
     const data = { ...product, id, quantity, uid: userInfo.uid };
-    console.log(data);
     const res = await axios.post("/api/cart", data);
-    const result = res.data;
-    console.log(result);
+    const { result } = res.data;
+    if (result === "success") {
+      increment(quantity);
+    }
+    router.push("/thuc-don");
   };
   useEffect(() => {
     fecthData();

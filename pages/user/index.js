@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "@/feature/auth-context";
 import UserBody from "@/components/user-body";
-import Loader from "@/components/loader";
 import TextInput from "@/components/text-input";
 
 export default function User() {

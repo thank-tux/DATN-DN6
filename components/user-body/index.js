@@ -11,7 +11,7 @@ export default function UserBody({ children }) {
   const { userInfo } = useContext(AuthContext);
   const handleSignOut = async () => {
     await signOut();
-    router.back("/login");
+    router.push("/login");
   };
   if (!userInfo) {
     return <Loader />;
