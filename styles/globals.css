@@ -219,3 +219,9 @@ input[type="number"] {
     no-repeat #f8f7f5 bottom;
   /* background-size: 74%; */
 }
+.flex-60 {
+  flex: 0 0 60%;
+}
+.flex-40 {
+  flex: 0 0 40%;
+}
