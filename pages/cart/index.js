@@ -5,6 +5,7 @@ import CardCart from "@/components/card-cart";
 import EmptyCart from "@/components/empty-cart";
 import axios from "axios";
 import { formatMoney, getDate } from "@/utils";
+import Link from "next/link";
 
 export default function Cart() {
   const { userInfo } = useContext(AuthContext);
@@ -93,13 +94,12 @@ export default function Cart() {
                   <span>Tổng thanh toán</span>
                   <span>{formatMoney(parseInt(total) + 10000)}₫</span>
                 </div>
-                <div
-                  onClick={handelPayment}
-                  className="flex p-4 roboto mt-6 btn-shadow cursor-pointer bg-red-500 text-white rounded-full justify-between"
-                >
-                  <span>Thanh toán</span>
-                  <span>{formatMoney(parseInt(total) + 10000)}₫</span>
-                </div>
+                <Link href="/checkout">
+                  <div className="flex p-4 roboto mt-6 btn-shadow cursor-pointer bg-red-500 text-white rounded-full justify-between">
+                    <span>Thanh toán</span>
+                    <span>{formatMoney(parseInt(total) + 10000)}₫</span>
+                  </div>
+                </Link>
               </div>
             </div>
           </>
