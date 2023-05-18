@@ -19,10 +19,10 @@ export default function Footer() {
       <div className="bg-[#202124] text-[#ababab]">
         <div className="container m-auto">
           <div className="flex justify-between pt-10">
-            <CardBody title={"danh mục món ăn"} data={type} />
+            <CardBody title={"danh mục sản phẩm"} data={type} />
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                Về KFC
+                Về KP
               </h2>
               <ul>
                 <li className="text-sm capitalize">
@@ -32,19 +32,19 @@ export default function Footer() {
                 </li>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    tin tức kfc
+                    tin tức KP
                   </span>
                 </li>
               </ul>
             </div>
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                Liên hệ KFC
+                Liên hệ KP
               </h2>
               <ul>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    liên hệ kfc
+                    liên hệ KP
                   </span>
                 </li>
               </ul>
@@ -74,13 +74,13 @@ export default function Footer() {
             <DownloadApp />
           </div>
           <span className="text-xs text-center block py-10">
-            Copyright © 2023 KFC Vietnam
+            Copyright © 2023 KP Vietnam
           </span>
           <hr />
           <div className="flex justify-between py-10">
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                CÔNG TY LIÊN DOANH TNHH KFC VIỆT NAM
+                CÔNG TY LIÊN DOANH TNHH KP VIỆT NAM
               </h2>
               <ul>
                 <li className="text-sm capitalize">

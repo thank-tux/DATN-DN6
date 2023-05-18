@@ -8,7 +8,7 @@ import {
 
 export default async function handle(req, res) {
   const { method } = req;
-
+  const name = "ListSanPham";
   if (method === "POST") {
     try {
       await addData("products", { ...req.body });
@@ -21,7 +21,7 @@ export default async function handle(req, res) {
 
   if (method === "GET" && !req.body) {
     try {
-      const data = await getData("products");
+      const data = await getData(name);
       res.status(200).json(data);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ export default async function handle(req, res) {
 
   if (method === "DELETE") {
     try {
-      await deleData("products", { ...req.body });
+      await deleData(name, { ...req.body });
       res.status(200).json({ message: "Data deleted successfully" });
     } catch (error) {
       console.error(error);
@@ -41,7 +41,7 @@ export default async function handle(req, res) {
   if (method === "PUT") {
     try {
       const data = req.body;
-      await updateData("products", data.id, { ...data });
+      await updateData(name, data.id, { ...data });
       res.status(200).json({ message: "Data updated successfully" });
     } catch (error) {
       console.error(error);
@@ -50,7 +50,7 @@ export default async function handle(req, res) {
   }
   if (method === "GET" && req.body.id) {
     try {
-      const data = await getItem("products", req.body.id);
+      const data = await getItem(name, req.body.id);
       res.status(200).json(data);
     } catch (error) {
       console.error(error);

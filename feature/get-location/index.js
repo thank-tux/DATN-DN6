@@ -9,29 +9,30 @@ const getLocation = async (location) => {
   return response.data;
 };
 
-export const getPosition = async () => {
+export const getPosition = async (callback) => {
   let result = null,
     error = null;
   try {
-    const hehe = navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.getCurrentPosition(
       async (position) => {
         const newPosition = {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         };
         const data = await getLocation(newPosition);
-        result = `${data.locality} ${data.city} ${data.countryName}`;
-        // console.log(result);
-        return result;
+        result = {
+          locality: data.locality,
+          city: data.city,
+          countryName: data.countryName,
+        };
+        callback({ result });
       },
       (e) => {
-        error = e;
+        callback({ error: e });
       }
     );
-    console.log(hehe);
   } catch (e) {
     error = "Định vị không được sử dụng ở trang web này";
+    callback(error);
   }
-  console.log(result);
-  return { result, error };
 };

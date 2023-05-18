@@ -2,9 +2,10 @@ import { getData } from "@/feature/firebase/firebaseAuth";
 
 export default async function handle(req, res) {
   const { method } = req;
+  const name = "DanhMucSanPham";
   if (method === "GET") {
     try {
-      const data = await getData("DanhMucMonAn");
+      const data = await getData(name);
       res.status(200).json(data);
     } catch (error) {
       console.error(error);

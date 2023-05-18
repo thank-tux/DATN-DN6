@@ -6,13 +6,22 @@ import Loader from "@/components/loader";
 import { formatMoney } from "@/utils";
 import TextInput from "@/components/text-input";
 import { getPosition } from "@/feature/get-location";
+import { MdOutlinePayments, MdPayment } from "react-icons/md";
 
 export default function Checkout() {
   const { userInfo } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
-  const [location, setLocation] = useState(null);
+  const [district, setDistrict] = useState("");
+  const [city, setCity] = useState("");
+  const [home, setHome] = useState("");
+  const [wards, setWards] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [rule, setRule] = useState(false);
+  const [bank, setBank] = useState(true);
 
   useEffect(() => {
     async function fectchData() {
@@ -35,11 +44,14 @@ export default function Checkout() {
   }, [userInfo]);
 
   const handleGetLocation = async () => {
-    const { result, error } = await getPosition();
-    // console.log(result);
-    if (!error) {
-      setLocation(result);
-    }
+    await getPosition((value) => {
+      const { result, error } = value;
+      if (!error) {
+        console.log(result);
+        setCity(result.city);
+        setDistrict(result.locality);
+      }
+    });
   };
   if (loading) {
     return <Loader />;
@@ -63,17 +75,90 @@ export default function Checkout() {
             >
               Địa chỉ hiện tại
             </button>
-            <TextInput />
+            <TextInput
+              value={home}
+              callback={(text) => setHome(text)}
+              name="Số nhà"
+            />
+            <TextInput
+              value={wards}
+              callback={(text) => setWards(text)}
+              name="Phường/Xã"
+            />
+            <TextInput
+              value={district}
+              callback={(text) => setDistrict(text)}
+              name="Quận"
+            />
+            <TextInput
+              value={city}
+              callback={(text) => setCity(text)}
+              name="Thành phố"
+            />
           </div>
           <div className="bg-[#f8f7f5] my-2 p-4">
             <h2 className="oswald uppercase text-xl :">
               Thêm thông tin chi tiết:
             </h2>
+            <TextInput
+              value={name}
+              callback={(text) => setName(text)}
+              name="Họ tên của bạn"
+            />
+            <TextInput
+              value={phone}
+              callback={(text) => setPhone(text)}
+              name="Số điện thoại"
+              type="number"
+            />
+            <TextInput
+              value={email}
+              callback={(text) => setEmail(text)}
+              name="Địa chỉ email"
+            />
           </div>
           <div className="bg-[#f8f7f5] my-2 p-4">
             <h2 className="oswald uppercase text-xl :">
               phương thức thanh toán:
             </h2>
+            <div
+              onClick={() => setBank(true)}
+              className={`${
+                bank
+                  ? "border-black bg-black text-white"
+                  : "text-black border-black"
+              } cursor-pointer font-bold flex items-center justify-between my-2 border-2 px-2 py-4 rounded-[6px]`}
+            >
+              <span>Thanh toán khi nhận hàng</span>
+              <MdOutlinePayments className="w-7 h-7" />
+            </div>
+            <div
+              onClick={() => setBank(false)}
+              className={`${
+                bank
+                  ? "text-black border-black"
+                  : "border-black bg-black text-white"
+              } cursor-pointer font-bold flex items-center justify-between my-2  border-2 px-2 py-4 rounded-[6px]`}
+            >
+              Thanh toán visa
+              <MdPayment className="w-7 h-7" />
+            </div>
+          </div>
+          <div>
+            <input
+              value={rule}
+              onChange={() => {
+                setRule(true);
+              }}
+              type="checkbox"
+            />
+            <span>Tôi đã đọc và đồng ý với các</span>
+            <span className="font-bold underline ml-1">
+              Chính Sách Hoạt Động của KFC Việt Nam
+            </span>
+          </div>
+          <div className="text-center btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10">
+            Đặt hàng
           </div>
         </div>
       </div>

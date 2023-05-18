@@ -15,8 +15,20 @@ export default function Header() {
       <div className="container m-auto flex flex-row justify-between items-center p-4">
         <Image className="md:hidden" src={Logo} width={70} height={30} alt="" />
         <ul className="flex-row items-center hidden md:flex">
-          <li>
+          {/* <li>
             <Link href="/" className="block logo-url"></Link>
+          </li> */}
+          <li className="text-hover px-4">
+            <Link
+              className={`text-md uppercase roboto font-extrabold ${
+                pathname[1] === ""
+                  ? "underline decoration-red-500 underline-offset-2"
+                  : ""
+              }`}
+              href="/"
+            >
+              Trang chủ
+            </Link>
           </li>
           <li className="text-hover px-4">
             <Link
@@ -27,7 +39,7 @@ export default function Header() {
               }`}
               href="/thuc-don"
             >
-              Thực đơn
+              sản phẩm
             </Link>
           </li>
           <li className="text-hover px-4">

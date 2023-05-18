@@ -8,6 +8,7 @@ const nextConfig = {
       "static.kfcvietnam.com.vn",
       "firebasestorage.googleapis.com",
       "raw.githubusercontent.com",
+      "i.pinimg.com",
     ],
   },
 };
