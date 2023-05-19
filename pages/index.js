@@ -26,10 +26,10 @@ export default function Home() {
   }, []);
   return (
     <div className="min-h-screen">
-      <SliderPanes />
+      {/* <SliderPanes /> */}
       <div className="container m-auto mt-4 p-10">
         <h2 className="font-bold text-3xl tracking-[2px] oswald line-space mb-8">
-          <span className="relative bg-white">DANH MỤC MÓN ĂN</span>
+          <span className="relative bg-white">DANH MỤC SẢN PHẨM</span>
         </h2>
         <ListBody>
           {loading &&
@@ -38,7 +38,7 @@ export default function Home() {
         <h2 className="font-bold text-3xl flex items-center tracking-[2px] oswald line-space my-8">
           <div className="w-[41px] h-[77px] icon-avatar"></div>
           <span className="relative pl-2 bg-white">
-            CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
+            CÓ THỂ BẠN SẼ THÍCH SẢN PHẨM NÀY
           </span>
         </h2>
         <ListBody>
