@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
   return (
     <div className="min-h-screen">
-      {/* <SliderPanes /> */}
+      <SliderPanes />
       <div className="container m-auto mt-4 p-10">
         <h2 className="font-bold text-3xl tracking-[2px] oswald line-space mb-8">
           <span className="relative bg-white">DANH MỤC SẢN PHẨM</span>

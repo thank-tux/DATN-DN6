@@ -8,7 +8,7 @@ import {
 
 export default async function handle(req, res) {
   const { method } = req;
-  const name = "ListSanPham";
+  const name = "products";
   if (method === "POST") {
     try {
       await addData("products", { ...req.body });

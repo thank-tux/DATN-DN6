@@ -19,6 +19,18 @@ import {
 } from "firebase/firestore";
 
 const googleAuth = new GoogleAuthProvider();
+const currentAuth = auth.currentUser;
+
+export async function ChangePassword(newPassword) {
+  let result = null,
+    error = null;
+  try {
+    result = await updatePassword(currentAuth, newPassword);
+  } catch (e) {
+    error = e;
+  }
+  return { result, error };
+}
 
 export async function signUpWithEmailAndPassword(email, password) {
   let result = null,
@@ -44,7 +56,6 @@ export async function signInWithEmailAndPassword(email, password) {
   } catch (e) {
     error = e;
   }
-
   return { result, error };
 }
 

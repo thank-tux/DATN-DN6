@@ -22,7 +22,7 @@ export default function Footer() {
             <CardBody title={"danh mục sản phẩm"} data={type} />
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                Về KP
+                Về KFC
               </h2>
               <ul>
                 <li className="text-sm capitalize">
@@ -32,19 +32,19 @@ export default function Footer() {
                 </li>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    tin tức KP
+                    tin tức KFC
                   </span>
                 </li>
               </ul>
             </div>
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                Liên hệ KP
+                Liên hệ KFC
               </h2>
               <ul>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    liên hệ KP
+                    liên hệ KFC
                   </span>
                 </li>
               </ul>

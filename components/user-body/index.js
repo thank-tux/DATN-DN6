@@ -61,7 +61,7 @@ export default function UserBody({ children }) {
           </li>
         </ul>
       </div>
-      <div className="w-[65%]">{children}</div>
+      <div className="w-[65%] min-h-[700px]">{children}</div>
     </div>
   );
 }

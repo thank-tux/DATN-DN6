@@ -2,7 +2,7 @@ import { getData } from "@/feature/firebase/firebaseAuth";
 
 export default async function handle(req, res) {
   const { method } = req;
-  const name = "DanhMucSanPham";
+  const name = "DanhMucMonAn";
   if (method === "GET") {
     try {
       const data = await getData(name);

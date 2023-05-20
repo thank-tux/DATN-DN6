@@ -5,7 +5,7 @@ import { getStorage } from "firebase/storage";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCZNXQmy6l0DXuqA4_2-ejvgeifkqNOqnY",
-  authDomain: "kfc-project-1292f.web.app",
+  authDomain: "kfc-project-1292f.firebaseapp.com",
   projectId: "kfc-project-1292f",
   storageBucket: "kfc-project-1292f.appspot.com",
   messagingSenderId: "107513396962",
