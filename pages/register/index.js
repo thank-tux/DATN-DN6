@@ -3,22 +3,30 @@ import LayoutForm from "@/components/layout-form";
 import TextInput from "@/components/text-input";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export default function Register() {
+  const [loading, setLoading] = useState(false);
   const [account, setAccount] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [img, setImg] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleRegister = async () => {
+    setLoading(true);
     const res = await axios.post("/api/auth", {
       account,
       password,
       phone,
       name,
     });
-    const data = res.data;
+    const data = await res.data;
+    setLoading(false);
+    if (data.login) {
+      router.push("/login");
+    }
   };
 
   return (
@@ -55,9 +63,18 @@ export default function Register() {
       </div>
       <button
         onClick={handleRegister}
-        className="w-[100%] p-4 bg-[#e4002b] rounded-full text-white font-bold roboto btn-shadow my-4"
+        className="relative w-[100%] p-4 bg-[#e4002b] rounded-full text-white font-bold roboto btn-shadow my-4"
       >
         Tạo tài khoản
+        <div
+          className={`${
+            !loading ? "hidden" : "block"
+          } absolute top-0 left-0 w-[100%] h-[100%] flex items-center justify-center`}
+        >
+          <AiOutlineLoading
+            className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-red-500`}
+          />
+        </div>
       </button>
       <div className="text-center">
         <span className="text-sm">Có tài khoản ?</span>

@@ -1,19 +1,25 @@
 import TextInput from "@/components/text-input";
 import UserBody from "@/components/user-body";
-import { useState } from "react";
-import { ChangePassword } from "@/feature/firebase/firebaseAuth";
+import { useState, useContext } from "react";
+import axios from "axios";
+import AuthContext from "@/feature/auth-context";
 
 export default function ResetPassword() {
+  const { userInfo } = useContext(AuthContext);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const handleChange = async () => {
     if (newPassword === confirmPassword) {
-      const { error, result } = await ChangePassword(newPassword);
+      const { success, error } = axios.put("/api/auth", {
+        newPassword,
+        uid: userInfo.uid,
+      });
     } else {
       console.log("fail");
     }
   };
+  console.log(userInfo);
   return (
     <UserBody>
       <div className="md:w-[550px]">

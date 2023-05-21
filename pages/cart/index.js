@@ -12,7 +12,7 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [emptyCart, setEmptyCart] = useState(false);
+  const [totalFood, setTotalFood] = useState(null);
 
   const fecthData = async () => {
     let value = 0;
@@ -22,9 +22,8 @@ export default function Cart() {
     });
     const data = res.data;
     if (data) {
-      if (data.arrayCart.length === 0) {
-        setEmptyCart(true);
-      } else {
+      setTotalFood(data.arrayCart.length);
+      if (totalFood && totalFood !== 0) {
         data.arrayCart.forEach((element) => {
           value += element.quantity * element.price;
         });
@@ -36,8 +35,13 @@ export default function Cart() {
     }
     setLoading(true);
   };
-  const handleCounter = (value) => {
-    setTotal(parseInt(total) + parseInt(value));
+  const handleCounter = (data) => {
+    if (!data.quantity) {
+      setTotal(parseInt(total) + parseInt(data.price));
+    } else {
+      setTotal(parseInt(total) - parseInt(data.price * data.quantity));
+      setTotalFood(totalFood - 1);
+    }
   };
   const handelPayment = async () => {
     const data = {
@@ -62,7 +66,7 @@ export default function Cart() {
         <h2 className="oswald text-4xl py-4  block">Giỏ hàng của tôi</h2>
       </div>
       <div className="flex justify-between">
-        {emptyCart ? (
+        {totalFood === 0 ? (
           <EmptyCart />
         ) : (
           <>
@@ -80,7 +84,7 @@ export default function Cart() {
             <div className="w-[38%]">
               <div className="sticky top-[150px] my-4 box-shadow p-6 rounded-xl ">
                 <h2 className="oswald text-3xl uppercase border-b pb-4 border-[#ccc]">
-                  {cart.length} món
+                  {totalFood} món
                 </h2>
                 <div className="my-2 flex justify-between">
                   <span>Tổng đơn hàng</span>

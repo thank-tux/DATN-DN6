@@ -4,6 +4,8 @@ import {
   signOut as signOutFirebase,
   signInWithPopup,
   GoogleAuthProvider,
+  updatePassword,
+  updateProfile,
 } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { auth, storage, db } from "./firebase";
@@ -21,15 +23,21 @@ import {
 const googleAuth = new GoogleAuthProvider();
 const currentAuth = auth.currentUser;
 
-export async function ChangePassword(newPassword) {
-  let result = null,
-    error = null;
+export async function ChangePassword(uid, newPassword) {
+  const docRef = doc(db, "users", uid);
   try {
-    result = await updatePassword(currentAuth, newPassword);
-  } catch (e) {
-    error = e;
-  }
-  return { result, error };
+    await updatePassword(currentAuth, newPassword);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        ["password"]: newPassword,
+      });
+    }
+  } catch (e) {}
+}
+
+export async function updateProfileUser(name) {
+  await updateProfile(currentAuth, { displayName: name });
 }
 
 export async function signUpWithEmailAndPassword(email, password) {
@@ -178,5 +186,17 @@ export const getItem = async (name, id) => {
     }
   } catch (error) {
     console.log("hehe", error);
+  }
+};
+export const deleteElementArray = async (name, uid, id, nameArray) => {
+  const docRef = doc(db, name, uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const newArray = data[nameArray].filter((obj) => obj.id !== id);
+
+    await updateDoc(docRef, {
+      [nameArray]: newArray,
+    });
   }
 };

@@ -26,7 +26,7 @@ export default function TextInput({
     );
   };
   return (
-    <div className="fromGroup font-sans">
+    <div className="fromGroup font-sans bg-inherit">
       <input
         value={value}
         onChange={handleOnChange}

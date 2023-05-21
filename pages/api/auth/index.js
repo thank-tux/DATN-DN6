@@ -3,6 +3,8 @@ import {
   getItem,
   addDataWithID,
   signUpWithEmailAndPassword,
+  ChangePassword,
+  updateProfileUser,
 } from "@/feature/firebase/firebaseAuth";
 
 const nameDB = "users";
@@ -12,19 +14,20 @@ export default async function handle(req, res) {
 
   if (method === "POST") {
     let payload = null;
-    const { account, password } = req.body;
+    const { account, password, name } = req.body;
     try {
       const { result, error } = await signUpWithEmailAndPassword(
         account,
         password
       );
       if (!error) {
+        await updateProfileUser(name);
         await addDataWithID(nameDB, result.user.uid, { ...req.body });
         payload = result;
       } else {
         payload = result;
       }
-      res.status(200).json(payload);
+      res.status(200).json({ login: true });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Something went wrong" });
@@ -32,9 +35,9 @@ export default async function handle(req, res) {
   }
   if (method === "PUT") {
     try {
-      const data = req.body;
-      await updateData(nameDB, data.id, { ...data });
-      res.status(200).json({ message: "Data updated successfully" });
+      const { newPassword, uid } = req.body;
+      await ChangePassword(uid, newPassword);
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Something went wrong" });

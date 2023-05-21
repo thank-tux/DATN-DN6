@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineLoading } from "react-icons/ai";
 import AuthContext from "@/feature/auth-context";
 import axios from "axios";
+import { deleteElementArray } from "@/feature/firebase/firebaseAuth";
 
 export default function CardCart({
   img,
@@ -19,6 +20,7 @@ export default function CardCart({
   const [show, setShow] = useState(true);
   const [value, setValue] = useState(quantity);
   const [loading, setLoading] = useState(false);
+  const [display, setDisplay] = useState(true);
   const handleDecrement = async () => {
     setLoading(true);
     const data = {
@@ -57,11 +59,23 @@ export default function CardCart({
     }
     increment();
     setValue(value + 1);
-    callback(price);
+    callback({ price });
+  };
+  const handleDelete = async () => {
+    setLoading(true);
+    const res = await axios.put("/api/cart", { id, uid: userInfo.uid });
+    const data = await res.data;
+    if (data.success) {
+      decrement(quantity);
+      setDisplay(false);
+      callback({ price, quantity });
+    }
   };
   return (
     <div
-      className={`flex relative p-3 box-shadow my-4 relative rounded ${
+      className={`${
+        display ? "flex" : "hidden"
+      } relative p-3 box-shadow my-4 relative rounded ${
         loading ? "opacity-50" : ""
       }`}
     >
@@ -84,7 +98,12 @@ export default function CardCart({
             {description}
           </p>
         </div>
-        <span className="cursor-pointer hover:underline roboto">xóa</span>
+        <span
+          onClick={handleDelete}
+          className="cursor-pointer hover:underline roboto"
+        >
+          xóa
+        </span>
       </div>
       <div className="absolute right-4 top-[50%]">
         <Counter
