@@ -12,6 +12,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState({});
   const router = useRouter();
 
   const handleRegister = async () => {

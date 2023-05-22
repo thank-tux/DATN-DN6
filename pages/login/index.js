@@ -10,30 +10,47 @@ import {
   getItem,
 } from "@/feature/firebase/firebaseAuth";
 import { useRouter } from "next/router";
+import { validate } from "@/feature/validation";
 
 export default function Login() {
   const router = useRouter();
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
+  const [errorInput, setErrorInput] = useState(null);
   const handleLogin = async () => {
-    const { result, error } = await signInWithEmailAndPassword(
-      account,
-      password
-    );
-    if (!error) {
-      const id = result.user.uid;
-      const user = await getItem("users", id);
-      if (!user) {
-        await signOut();
-      } else {
-        router.back("/");
-      }
-    }
+    // const { result, error } = await signInWithEmailAndPassword(
+    //   account,
+    //   password
+    // );
+    // if (!error) {
+    //   const id = result.user.uid;
+    //   const user = await getItem("users", id);
+    //   if (!user) {
+    //     await signOut();
+    //   } else {
+    //     router.back("/");
+    //   }
+    // }
+    handleInputPassword();
+    handleInputAccount();
   };
+  console.log(errorInput);
   const loginWithGoogle = async () => {
     const { result, error } = await signInGoogle();
     if (!error) {
       router.back("/");
+    }
+  };
+  const handleInputAccount = () => {
+    const { error } = validate({ input: account, type: "email" });
+    if (error) {
+      setErrorInput({ account: error });
+    }
+  };
+  const handleInputPassword = () => {
+    const { error } = validate({ input: password, type: "password" });
+    if (error) {
+      setErrorInput({ ...errorInput, error });
     }
   };
   return (
