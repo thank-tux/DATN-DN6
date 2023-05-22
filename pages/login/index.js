@@ -16,43 +16,42 @@ export default function Login() {
   const router = useRouter();
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
-  const [errorInput, setErrorInput] = useState(null);
+  const [errorInput, setErrorInput] = useState({});
   const handleLogin = async () => {
-    // const { result, error } = await signInWithEmailAndPassword(
-    //   account,
-    //   password
-    // );
-    // if (!error) {
-    //   const id = result.user.uid;
-    //   const user = await getItem("users", id);
-    //   if (!user) {
-    //     await signOut();
-    //   } else {
-    //     router.back("/");
-    //   }
-    // }
-    handleInputPassword();
-    handleInputAccount();
+    const listInput = [
+      {
+        type: "password",
+        input: password,
+      },
+      {
+        type: "account",
+        input: account,
+      },
+    ];
+    setErrorInput(validate(listInput));
+    if (Object.keys(errorInput).length === 0) {
+      const { result, error } = await signInWithEmailAndPassword(
+        account,
+        password
+      );
+      if (!error) {
+        const id = result.user.uid;
+        const user = await getItem("users", id);
+        if (!user) {
+          await signOut();
+        } else {
+          router.back("/");
+        }
+      }
+    }
   };
-  console.log(errorInput);
   const loginWithGoogle = async () => {
     const { result, error } = await signInGoogle();
     if (!error) {
       router.back("/");
     }
   };
-  const handleInputAccount = () => {
-    const { error } = validate({ input: account, type: "email" });
-    if (error) {
-      setErrorInput({ account: error });
-    }
-  };
-  const handleInputPassword = () => {
-    const { error } = validate({ input: password, type: "password" });
-    if (error) {
-      setErrorInput({ ...errorInput, error });
-    }
-  };
+
   return (
     <LayoutForm>
       <h2 className="oswald uppercase text-4xl mt-10">Đăng nhập</h2>
@@ -60,12 +59,15 @@ export default function Login() {
         name="Nhập địa chỉ email của bạn"
         value={account}
         callback={(text) => setAccount(text)}
+        error={errorInput.account}
       />
+
       <TextInput
         name="Nhập mật khẩu"
         value={password}
         callback={(text) => setPassword(text)}
         type="password"
+        error={errorInput.password}
       />
       <div className="text-right mt-10 text-sm cursor-pointer">
         Bạn quên mật khẩu ?

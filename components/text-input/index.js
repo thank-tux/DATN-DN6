@@ -7,6 +7,7 @@ export default function TextInput({
   name,
   type = "text",
   disabled = false,
+  error,
 }) {
   const [show, setShow] = useState(false);
   const handleOnChange = (text) => {
@@ -38,6 +39,9 @@ export default function TextInput({
         {name}
       </span>
       {type === "password" && <HiddenPassword />}
+      {error && (
+        <p className="absolute bottom-[-20px] text-red-400 text-xs">{error}</p>
+      )}
     </div>
   );
 }
