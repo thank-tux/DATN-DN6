@@ -12,7 +12,7 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [totalFood, setTotalFood] = useState(null);
+  const [totalFood, setTotalFood] = useState(0);
 
   const fecthData = async () => {
     let value = 0;
@@ -23,15 +23,12 @@ export default function Cart() {
     const data = res.data;
     if (data) {
       setTotalFood(data.arrayCart.length);
-      if (totalFood && totalFood !== 0) {
-        data.arrayCart.forEach((element) => {
-          value += element.quantity * element.price;
-        });
-        setTotal(value);
-      }
+      data.arrayCart.forEach((element) => {
+        value += element.quantity * element.price;
+      });
+      console.log(value);
+      setTotal(value);
       setCart(data.arrayCart);
-    } else {
-      setEmptyCart(true);
     }
     setLoading(true);
   };
@@ -42,15 +39,6 @@ export default function Cart() {
       setTotal(parseInt(total) - parseInt(data.price * data.quantity));
       setTotalFood(totalFood - 1);
     }
-  };
-  const handelPayment = async () => {
-    const data = {
-      id_user: userInfo.uid,
-      list_item: cart.map((item) => item.id),
-      date: getDate(),
-      total: total + 10000,
-    };
-    await axios.post("/api/payment", data);
   };
   useEffect(() => {
     if (userInfo) {

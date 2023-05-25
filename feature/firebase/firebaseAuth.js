@@ -17,6 +17,7 @@ import {
   doc,
   updateDoc,
   getDoc,
+  arrayUnion,
   setDoc,
 } from "firebase/firestore";
 
@@ -82,7 +83,8 @@ export async function signInGoogle() {
   let result = null,
     error = null;
   try {
-    result = await signInWithPopup(auth, googleAuth);
+    const res = await signInWithPopup(auth, googleAuth);
+    result = res.user;
   } catch (e) {
     error = e;
   }
@@ -198,5 +200,18 @@ export const deleteElementArray = async (name, uid, id, nameArray) => {
     await updateDoc(docRef, {
       [nameArray]: newArray,
     });
+  }
+};
+
+export const addToFirebaseArray = async (collectionName, documentId, data) => {
+  const documentRef = doc(db, collectionName, documentId);
+
+  try {
+    await updateDoc(documentRef, {
+      items: arrayUnion(data),
+    });
+    console.log("Element added to the array successfully");
+  } catch (error) {
+    console.error("Error adding element to the array:", error);
   }
 };

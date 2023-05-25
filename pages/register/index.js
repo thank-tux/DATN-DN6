@@ -14,7 +14,7 @@ export default function Register() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [errorInput, setErrorInput] = useState({});
-  const [checkRule, setCheckRule] = useState(true);
+  const [checkRule, setCheckRule] = useState(null);
   const router = useRouter();
 
   const handleRegister = async () => {
@@ -37,7 +37,7 @@ export default function Register() {
       },
     ];
     setErrorInput(validate(listInput));
-    if (Object.keys(errorInput).length === 0 && checkRule === true) {
+    if (Object.keys(errorInput).length === 0 && checkRule === false) {
       console.log("hehe");
       setLoading(true);
       const res = await axios.post("/api/auth", {
@@ -49,7 +49,7 @@ export default function Register() {
       const data = await res.data;
       setLoading(false);
       if (data.login) {
-        // router.push("/login");
+        router.push("/login");
       }
     }
   };
@@ -93,9 +93,9 @@ export default function Register() {
         <span className="font-bold ml-1 capitalize">
           chính sách hoạt động của KFC
         </span>
-        {!checkRule && (
+        {checkRule === false && (
           <span className="absolute text-xs text-red-400 bottom-[-20px]">
-            Bạn chưa đồng ý với điều kiện
+            Bạn chưa đồng ý với điều khoản dịch vụ
           </span>
         )}
       </div>

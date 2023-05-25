@@ -23,6 +23,9 @@ export function AuthContextProvider({ children }) {
     setQuantity(quantity - count);
   };
 
+  const emptyCart = () => {
+    setQuantity(0);
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -61,6 +64,7 @@ export function AuthContextProvider({ children }) {
         quantityCart: quantity,
         userInfo: user,
         loggedIn: isLoggedIn,
+        emptyCart,
       }}
     >
       {children}

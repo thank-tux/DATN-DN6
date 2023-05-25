@@ -7,9 +7,13 @@ import { formatMoney } from "@/utils";
 import TextInput from "@/components/text-input";
 import { getPosition } from "@/feature/get-location";
 import { MdOutlinePayments, MdPayment } from "react-icons/md";
+import { getDate } from "@/utils";
+import Modal from "@/components/modal";
+import Payment from "@/components/payment";
+import EmptyCart from "@/components/empty-cart";
 
 export default function Checkout() {
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, emptyCart } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -22,7 +26,28 @@ export default function Checkout() {
   const [email, setEmail] = useState("");
   const [rule, setRule] = useState(false);
   const [bank, setBank] = useState(true);
-
+  const [show, setShow] = useState(false);
+  const handelPayment = async () => {
+    const result = {
+      id_user: userInfo.uid,
+      list_item: data.arrayCart,
+      date: getDate(),
+      total: total + 10000,
+      address: {
+        home,
+        wards,
+        district,
+        city,
+      },
+      payment: "delivery",
+    };
+    const res = await axios.post("/api/payment", result);
+    const newData = await res.data;
+    if (newData.result) {
+      emptyCart();
+      setShow(true);
+    }
+  };
   useEffect(() => {
     async function fectchData() {
       const res = await axios.post("/api/item", {
@@ -31,18 +56,20 @@ export default function Checkout() {
       });
       const data = await res.data;
       var value = null;
-      data.arrayCart.forEach((element) => {
-        value += element.quantity * element.price;
-      });
-      setTotal(value);
-      setData(data);
+      if (data) {
+        data.arrayCart.forEach((element) => {
+          value += element.quantity * element.price;
+        });
+        setTotal(value);
+        setData(data);
+      }
       setLoading(false);
     }
     if (userInfo) {
       fectchData();
     }
   }, [userInfo]);
-
+  console.log(show);
   const handleGetLocation = async () => {
     await getPosition((value) => {
       const { result, error } = value;
@@ -56,8 +83,11 @@ export default function Checkout() {
   if (loading) {
     return <Loader />;
   }
+  if (!data) {
+    return <EmptyCart />;
+  }
   return (
-    <div className="min-h-screen container m-auto flex">
+    <div className="min-h-screen relative container m-auto flex">
       <div className="flex-60">
         <div className="w-[80%] m-auto mt-10">
           <h2 className="text-4xl oswald flex items-center justify-center">
@@ -157,7 +187,10 @@ export default function Checkout() {
               Chính Sách Hoạt Động của KFC Việt Nam
             </span>
           </div>
-          <div className="text-center btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10">
+          <div
+            onClick={handelPayment}
+            className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
+          >
             Đặt hàng
           </div>
         </div>
@@ -193,6 +226,9 @@ export default function Checkout() {
           </div>
         </div>
       </div>
+      <Modal show={show}>
+        <Payment />
+      </Modal>
     </div>
   );
 }

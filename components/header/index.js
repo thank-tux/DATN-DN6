@@ -30,7 +30,7 @@ export default function Header() {
               thực đơn
             </Link>
           </li>
-          <li className="text-hover px-4">
+          {/* <li className="text-hover px-4">
             <Link
               className={`text-md uppercase roboto font-extrabold ${
                 pathname[1] === "kfc-tabs"
@@ -41,7 +41,7 @@ export default function Header() {
             >
               tin tức
             </Link>
-          </li>
+          </li> */}
         </ul>
         <NavMenu callback={() => setShow(!show)} />
       </div>

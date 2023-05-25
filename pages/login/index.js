@@ -8,6 +8,7 @@ import {
   signOut,
   signInGoogle,
   getItem,
+  addDataWithID,
 } from "@/feature/firebase/firebaseAuth";
 import { useRouter } from "next/router";
 import { validate } from "@/feature/validation";
@@ -48,7 +49,18 @@ export default function Login() {
   const loginWithGoogle = async () => {
     const { result, error } = await signInGoogle();
     if (!error) {
-      router.back("/");
+      const uid = result.uid;
+      const user = await getItem("users", uid);
+      if (!user) {
+        const data = {
+          account: result.email,
+          password,
+          phone: result.phoneNumber,
+          name: result.displayName,
+        };
+        await addDataWithID("users", uid, data);
+      }
+      router.push("/");
     }
   };
 
