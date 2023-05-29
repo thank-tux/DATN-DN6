@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import LayoutForm from "@/components/layout-form";
 import TextInput from "@/components/text-input";
 import Link from "next/link";
@@ -6,14 +6,16 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { AiOutlineLoading } from "react-icons/ai";
 import { validate } from "@/feature/validation";
+import AuthContext from "@/feature/auth-context";
 
 export default function Register() {
+  const { userInfo } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [account, setAccount] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [errorInput, setErrorInput] = useState({});
+  const [errorInput, setErrorInput] = useState(null);
   const [checkRule, setCheckRule] = useState(null);
   const router = useRouter();
 
@@ -37,23 +39,33 @@ export default function Register() {
       },
     ];
     setErrorInput(validate(listInput));
-    if (Object.keys(errorInput).length === 0 && checkRule === false) {
-      console.log("hehe");
-      setLoading(true);
-      const res = await axios.post("/api/auth", {
-        account,
-        password,
-        phone,
-        name,
-      });
-      const data = await res.data;
-      setLoading(false);
-      if (data.login) {
-        router.push("/login");
-      }
+  };
+  const postData = async () => {
+    setLoading(true);
+    const res = await axios.post("/api/auth", {
+      account,
+      password,
+      phone,
+      name,
+    });
+    const data = await res.data;
+    setLoading(false);
+    if (data.login) {
+      alert("Tạo tài khoản thành công");
+    } else {
+      alert("Tài khoản đã có người sử dụng");
     }
   };
-  console.log(checkRule);
+  useEffect(() => {
+    if (userInfo) {
+      router.push("/user");
+    }
+  }, [userInfo]);
+  useEffect(() => {
+    if (errorInput && Object.keys(errorInput).length === 0) {
+      postData();
+    }
+  }, [errorInput]);
   return (
     <LayoutForm>
       <h2 className="oswald uppercase text-4xl mt-10">Tạo tài khoản mới</h2>
@@ -61,25 +73,25 @@ export default function Register() {
         name="Nhập họ tên đầy đủ"
         value={name}
         callback={(text) => setName(text)}
-        error={errorInput.name}
+        error={errorInput && errorInput.name}
       />
       <TextInput
         name="Nhập số điện thoại"
         value={phone}
-        error={errorInput.phone}
+        error={errorInput && errorInput.phone}
         callback={(text) => setPhone(text)}
         type="number"
       />
       <TextInput
         name="Nhập địa chỉ email của bạn"
         value={account}
-        error={errorInput.account}
+        error={errorInput && errorInput.account}
         callback={(text) => setAccount(text)}
       />
       <TextInput
         name="Nhập mật khẩu"
         value={password}
-        error={errorInput.password}
+        error={errorInput && errorInput.password}
         callback={(text) => setPassword(text)}
         type="password"
       />

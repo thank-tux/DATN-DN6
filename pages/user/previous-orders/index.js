@@ -17,8 +17,10 @@ export default function PreviousOrders() {
       id: userInfo.uid,
     });
     const data = await res.data;
-    setPreviousOrder(data.items);
-    setTotal(data.items.length);
+    if (data) {
+      setPreviousOrder(data.items);
+      setTotal(data.items.length);
+    }
     setLoading(true);
   }
   useEffect(() => {
@@ -29,12 +31,13 @@ export default function PreviousOrders() {
   if (!loading) {
     return <Loader />;
   }
+
   return (
     <UserBody>
       <div>
         <h2 className="oswald uppercase text-4xl my-4">các đơn hàng đã đặt</h2>
 
-        {total === 0 ? (
+        {total === 0 || !previousOrder ? (
           <EmptyCart />
         ) : (
           <div className="p-4">

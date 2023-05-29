@@ -14,14 +14,13 @@ export default async function handle(req, res) {
 
   if (method === "POST") {
     let payload = null;
-    const { account, password, name } = req.body;
+    const { account, password } = req.body;
     try {
       const { result, error } = await signUpWithEmailAndPassword(
         account,
         password
       );
       if (!error) {
-        await updateProfileUser(name);
         await addDataWithID(nameDB, result.user.uid, { ...req.body });
         payload = result;
       } else {

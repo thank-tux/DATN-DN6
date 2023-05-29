@@ -497,6 +497,13 @@
     lodash.snakecase "^4.1.1"
     p-defer "^3.0.0"
 
+"@google-pay/button-react@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@google-pay/button-react/-/button-react-3.0.9.tgz#0193485f650a9c6291dccbae51d383f49d0bfc44"
+  integrity sha512-c6OntNp4u+4cLVKs9ISBJFhuiDdCR8rPtCZOOErw0tT8hvV5j8NOE+40zs+0TjFiDlqrCvbwu1j7edpRO8WrMg==
+  dependencies:
+    "@types/googlepay" "^0.7.0"
+
 "@grpc/grpc-js@~1.7.0":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.7.3.tgz#f2ea79f65e31622d7f86d4b4c9ae38f13ccab99a"
@@ -834,6 +841,11 @@
   dependencies:
     "@types/minimatch" "^5.1.2"
     "@types/node" "*"
+
+"@types/googlepay@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.7.0.tgz#eb11aca185a64cd413952bcb7c16ea25217ac6bc"
+  integrity sha512-jC7ViexJeV8LlTKLiUBfNs5GICbm0PYsm5Y30JCEBkreY0bMNA+F4KnTEz+WtqBTRldTAxKBKqRstlOUFpW+dA==
 
 "@types/json-schema@^7.0.6":
   version "7.0.11"

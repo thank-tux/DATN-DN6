@@ -217,11 +217,15 @@ input[type="number"] {
   background-position: top 20px right 20px;
   background: url(https://kfcvn-static.cognizantorderserv.com/images/web/empty-cart.png?v=5.0)
     no-repeat #f8f7f5 bottom;
-  /* background-size: 74%; */
 }
 .flex-60 {
   flex: 0 0 60%;
 }
 .flex-40 {
   flex: 0 0 40%;
+}
+.gpay-card-info-container {
+  width: 100%;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 1px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }

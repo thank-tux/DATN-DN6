@@ -8,7 +8,7 @@ export default function Modal({ children, show }) {
     setIsBrowser(true);
   }, []);
   const ShowModal = show ? (
-    <div className="absolute bg-[rgba(49,49,49,0.8)] top-0 right-0 w-screen h-screen center-col">
+    <div className="fixed bg-[rgba(49,49,49,0.8)] top-0 right-0 w-screen h-screen flex flex-col items-center justify-center">
       {children}
     </div>
   ) : null;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TextInput from "@/components/text-input";
 import LayoutForm from "@/components/layout-form";
 import Link from "next/link";
@@ -12,8 +12,10 @@ import {
 } from "@/feature/firebase/firebaseAuth";
 import { useRouter } from "next/router";
 import { validate } from "@/feature/validation";
+import AuthContext from "@/feature/auth-context";
 
 export default function Login() {
+  const { userInfo } = useContext(AuthContext);
   const router = useRouter();
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
@@ -41,11 +43,18 @@ export default function Login() {
         if (!user) {
           await signOut();
         } else {
-          router.back("/");
+          router.push("/");
         }
+      } else {
+        alert("thông tin tài khoản hoặc mặt khẩu không chính xác");
       }
     }
   };
+  useEffect(() => {
+    if (userInfo) {
+      router.push("/user");
+    }
+  }, [userInfo]);
   const loginWithGoogle = async () => {
     const { result, error } = await signInGoogle();
     if (!error) {

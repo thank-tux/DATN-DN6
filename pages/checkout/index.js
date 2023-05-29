@@ -11,8 +11,11 @@ import { getDate } from "@/utils";
 import Modal from "@/components/modal";
 import Payment from "@/components/payment";
 import EmptyCart from "@/components/empty-cart";
+import { useRouter } from "next/router";
+import Delivery from "@/components/delivery";
 
 export default function Checkout() {
+  const router = useRouter();
   const { userInfo, emptyCart } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +29,8 @@ export default function Checkout() {
   const [email, setEmail] = useState("");
   const [rule, setRule] = useState(false);
   const [bank, setBank] = useState(true);
-  const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const handelPayment = async () => {
     const result = {
       id_user: userInfo.uid,
@@ -45,7 +49,7 @@ export default function Checkout() {
     const newData = await res.data;
     if (newData.result) {
       emptyCart();
-      setShow(true);
+      setShowModal(true);
     }
   };
   useEffect(() => {
@@ -69,7 +73,6 @@ export default function Checkout() {
       fectchData();
     }
   }, [userInfo]);
-  console.log(show);
   const handleGetLocation = async () => {
     await getPosition((value) => {
       const { result, error } = value;
@@ -187,12 +190,16 @@ export default function Checkout() {
               Chính Sách Hoạt Động của KFC Việt Nam
             </span>
           </div>
-          <div
-            onClick={handelPayment}
-            className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
-          >
-            Đặt hàng
-          </div>
+          {bank === false ? (
+            <Payment callback={handelPayment} value={total + 10} />
+          ) : (
+            <div
+              onClick={handelPayment}
+              className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
+            >
+              Đặt hàng
+            </div>
+          )}
         </div>
       </div>
       <div className="flex-40 p-2">
@@ -226,9 +233,11 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-      <Modal show={show}>
-        <Payment />
-      </Modal>
+      {showModal && (
+        <Modal show={showModal}>
+          <Delivery />
+        </Modal>
+      )}
     </div>
   );
 }
