@@ -52,6 +52,7 @@ export default function Register() {
     setLoading(false);
     if (data.login) {
       alert("Tạo tài khoản thành công");
+      router.push("/login");
     } else {
       alert("Tài khoản đã có người sử dụng");
     }
