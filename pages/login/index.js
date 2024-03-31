@@ -60,6 +60,7 @@ export default function Login() {
     if (!error) {
       const uid = result.uid;
       const user = await getItem("users", uid);
+      console.log(user);
       if (!user) {
         const data = {
           account: result.email,
