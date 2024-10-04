@@ -187,7 +187,7 @@ export default function Checkout() {
             />
             <span>Tôi đã đọc và đồng ý với các</span>
             <span className="font-bold underline ml-1">
-              Chính Sách Hoạt Động của KFC Việt Nam
+              Chính Sách Hoạt Động của Nhà sách
             </span>
           </div>
           {bank === false ? (

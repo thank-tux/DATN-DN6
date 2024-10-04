@@ -104,7 +104,7 @@ export default function Register() {
         />
         <span>Tôi đã đọc và đồng ý với</span>
         <span className="font-bold ml-1 capitalize">
-          chính sách hoạt động của KFC
+          chính sách hoạt động của 
         </span>
         {checkRule === false && (
           <span className="absolute text-xs text-red-400 bottom-[-20px]">

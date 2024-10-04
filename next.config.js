@@ -13,6 +13,8 @@ const nextConfig = {
       "bizweb.dktcdn.net",
       "thumbs.dreamstime.com",
       "i.pinimg.com",
+      "static.vecteezy.com",
+
     ],
   },
 };

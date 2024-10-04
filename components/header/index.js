@@ -33,11 +33,11 @@ export default function Header() {
           {/* <li className="text-hover px-4">
             <Link
               className={`text-md uppercase roboto font-extrabold ${
-                pathname[1] === "kfc-tabs"
+                pathname[1] === "-tabs"
                   ? "underline decoration-red-500 underline-offset-2"
                   : ""
               }`}
-              href="/kfc-tabs/our-story"
+              href="/-tabs/our-story"
             >
               tin tức
             </Link>

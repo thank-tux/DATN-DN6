@@ -5,9 +5,9 @@ export default function LayoutForm({ children }) {
       <div className="container m-auto flex">
         <div className="w-[45%]">
           <Image
-            className="h-[100vh] w-[auto]"
+            className="h-[80vh] w-[auto]"
             src={
-              "https://i.pinimg.com/236x/34/5c/54/345c546b583a65c52fab5dc3b1cceb19.jpg"
+              "https://static.vecteezy.com/system/resources/previews/015/407/636/original/read-more-inspirational-motivational-quote-cute-lettering-book-reading-meme-and-shelf-with-books-phrase-for-poster-banner-print-children-s-room-decor-illustration-vector.jpg"
             }
             width={1000}
             height={1000}
