@@ -9,6 +9,10 @@ const nextConfig = {
       "firebasestorage.googleapis.com",
       "raw.githubusercontent.com",
       "i.pinimg.com",
+      "thietkelogo.edu.vn",
+      "bizweb.dktcdn.net",
+      "thumbs.dreamstime.com",
+      "i.pinimg.com",
     ],
   },
 };

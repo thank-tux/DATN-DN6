@@ -33,7 +33,7 @@ export default function Menu({ show, callback }) {
         </div>
       </div>
       <div className="p-4">
-        <h2 className="font-bold text-lg uppercase">Danh mục món ăn</h2>
+        <h2 className="font-bold text-lg uppercase">Thể loại sách</h2>
         <ul className="mt-2 text-sm capitalize">
           {loading &&
             type.map((item, index) => (

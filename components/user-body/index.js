@@ -20,7 +20,10 @@ export default function UserBody({ children }) {
     <div className="flex justify-between container m-auto py-4">
       <div className="w-[30%]">
         <div className="sticky top-[150px] text-white bg-[#202124] rounded-xl py-4">
-          <div className="h-[87px] bg-[50%] mt-16 mb-10 bg-no-repeat bg-[url(https://kfcvn-static.cognizantorderserv.com/images/web/profile-circle.png?v=5.0)]"></div>
+          <div
+            className=" h-[97px] bg-center mt-16 mb-10 bg-no-repeat bg-[url(https://media.istockphoto.com/id/509862358/vector/flat-icon-is-a-stack-of-books.jpg?s=612x612&w=0&k=20&c=44I05zWvgSQd9hK7EeXrlc9saXLDw-z-L5-UCgh9xFE=)] bg-[length:100px_100px]"
+          ></div>
+
           <h2 className="flex flex-col items-center oswald text-3xl">
             <span>Xin chào,</span>
             <span>{userInfo.displayName}</span>
@@ -33,9 +36,8 @@ export default function UserBody({ children }) {
           </button>
           <ul className="ml-10 mt-10 ">
             <li
-              className={`${
-                pathname === "/user/previous-orders" && "text-[#fff]"
-              } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
+              className={`${pathname === "/user/previous-orders" && "text-[#fff]"
+                } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
             >
               <Link href={"/user/previous-orders"}>Đơn hàng đã đặt</Link>
             </li>
@@ -47,16 +49,14 @@ export default function UserBody({ children }) {
               <Link href={"/user/addresses"}>Địa chỉ của bạn</Link>
             </li> */}
             <li
-              className={`${
-                pathname === "/user" && "text-[#fff]"
-              } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
+              className={`${pathname === "/user" && "text-[#fff]"
+                } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
             >
               <Link href={"/user"}>Chi tiết tài khoản</Link>
             </li>
             <li
-              className={`${
-                pathname === "/user/reset-password" && "text-[#fff]"
-              } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
+              className={`${pathname === "/user/reset-password" && "text-[#fff]"
+                } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
             >
               <Link href={"/user/reset-password"}>Đặt lại mật khẩu</Link>
             </li>

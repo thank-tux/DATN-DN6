@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     <>
       <main>
         <Head>
-          <title>Welcome to KFC</title>
+          <title>Welcome to BookStore</title>
         </Head>
         <Header />
         {children}

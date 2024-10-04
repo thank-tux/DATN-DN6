@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyCZNXQmy6l0DXuqA4_2-ejvgeifkqNOqnY",
-  authDomain: "kfc-project-1292f.firebaseapp.com",
-  projectId: "kfc-project-1292f",
-  storageBucket: "kfc-project-1292f.appspot.com",
-  messagingSenderId: "107513396962",
-  appId: "1:107513396962:web:a945189d9c69fbb1eb68bb",
+const firebaseConfig = {
+  apiKey: "AIzaSyBofWevCvKSTbD2Wgy5v05kyzqKIIkmPFs",
+  authDomain: "bookstore-economy.firebaseapp.com",
+  projectId: "bookstore-economy",
+  storageBucket: "bookstore-economy.appspot.com",
+  messagingSenderId: "733671429818",
+  appId: "1:733671429818:web:fc36f5fc97bcbb95e19483",
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

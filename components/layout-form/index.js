@@ -7,7 +7,7 @@ export default function LayoutForm({ children }) {
           <Image
             className="h-[100vh] w-[auto]"
             src={
-              "https://static.kfcvietnam.com.vn/images/web/signin/lg/signin.jpg?v=gOD8e3"
+              "https://i.pinimg.com/236x/34/5c/54/345c546b583a65c52fab5dc3b1cceb19.jpg"
             }
             width={1000}
             height={1000}

@@ -22,29 +22,29 @@ export default function Footer() {
             <CardBody title={"danh mục sản phẩm"} data={type} />
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                Về KFC
+                Về chúng tôi
               </h2>
               <ul>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    về chúng tôi
+                    Giới thiệu
                   </span>
                 </li>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    tin tức KFC
+                    Tin tức
                   </span>
                 </li>
               </ul>
             </div>
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                Liên hệ KFC
+                Liên hệ chúng tôi
               </h2>
               <ul>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    liên hệ KFC
+                    nhasach@gmail.com
                   </span>
                 </li>
               </ul>
@@ -74,7 +74,7 @@ export default function Footer() {
             <DownloadApp />
           </div>
           <span className="text-xs text-center block py-10">
-            Copyright © 2023 KP Vietnam
+            Copyright © 2024 D6 Vietnam
           </span>
           <hr />
           <div className="flex justify-between py-10">

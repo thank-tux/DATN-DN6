@@ -36,7 +36,7 @@ export default function Home() {
             listFood.map((item, index) => <CardList key={index} {...item} />)}
         </ListBody>
         <h2 className="font-bold text-3xl flex items-center tracking-[2px] oswald line-space my-8">
-          <div className="w-[41px] h-[77px] icon-avatar"></div>
+          <div className=" h-[77px] icon-avatar"></div>
           <span className="relative pl-2 bg-white">
             CÓ THỂ BẠN SẼ THÍCH SẢN PHẨM NÀY
           </span>
