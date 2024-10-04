@@ -1,38 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DATN - BookStore
+Chào mừng bạn đến với dự án BookStore! Đây là một ứng dụng web hoàn chỉnh cho phép người dùng duyệt, tìm kiếm và mua sách trực tuyến.
 
-## Getting Started
+## Tính năng
+*  **Đăng ký & Đăng nhập**: Người dùng có thể tạo tài khoản và đăng nhập để quản lý thông tin cá nhân và xem lịch sử đơn hàng.
+* **Duyệt sách**: Duyệt sách theo thể loại, tác giả hoặc tìm kiếm theo tiêu đề.
+* **Giỏ hàng**: Thêm sách vào giỏ hàng và tiến hành thanh toán.
+* **Quản lý đơn hàng**: Theo dõi trạng thái đơn hàng, xác nhận thanh toán và xem lịch sử mua hàng.
+* **Trang Admin**: Admin có thể quản lý kho hàng, thêm sách mới, cập nhật thông tin sách và thống kê thu nhập.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Công nghệ
+* **Frontend**: **Next.js**, **TailwindCSS** để xây dựng giao diện người dùng, **Axios** để gọi API.
+* **Backend**: API tích hợp trên **Firebase Functions**.
+* **Cơ sở dữ liệu**: **Firebase Firestore** để lưu trữ thông tin sách, người dùng và đơn hàng.
+* **Xác thực**: **Firebase Authentication** để quản lý người dùng.
+* **Hosting**: **Firebase Hosting** cho việc triển khai frontend.
