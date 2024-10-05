@@ -100,12 +100,12 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <Image
+            {/* <Image
               width={205}
               height={77}
               alt=""
-              src="https://kfcvn-static.cognizantorderserv.com/images/email/logo_footer.png"
-            />
+              src=""
+            /> */}
           </div>
         </div>
       </div>
