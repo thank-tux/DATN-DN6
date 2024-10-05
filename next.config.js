@@ -14,6 +14,7 @@ const nextConfig = {
       "thumbs.dreamstime.com",
       "i.pinimg.com",
       "static.vecteezy.com",
+      "png.pngtree.com",
     ],
   },
 };

@@ -45,4 +45,4 @@ export const getDate = () => {
   var formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   return formattedDateTime;
   
-};
+}
