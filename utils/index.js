@@ -44,4 +44,5 @@ export const getDate = () => {
   var seconds = String(currentDateTime.getSeconds()).padStart(2, "0");
   var formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   return formattedDateTime;
+  
 };
