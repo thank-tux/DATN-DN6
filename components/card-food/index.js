@@ -30,10 +30,10 @@ export default function CardFood({ description, name, img, price, id }) {
     increment();
   };
   return (
-    <div className="relative rounded list-shadow p-[10px]">
+    <div className="mb-3 mx-2 relative rounded list-shadow p-[10px] h-[510px]">
       <div className="overflow-hidden">
         <Image
-          className="min-h-48 w-full hover:scale-110 duration-700"
+          className="min-h-60 max-h-80 w-full hover:scale-110 duration-700"
           src={img}
           width={200}
           height={200}
@@ -42,7 +42,7 @@ export default function CardFood({ description, name, img, price, id }) {
       </div>
       <div className="roboto flex flex-row items-baseline justify-between px-2 text-xl font-semibold capitalize">
         <span>
-          <Link href={`/thuc-don/order/${id}`}>{name}</Link>
+          <Link href={`/the-loai/order/${id}`}>{name}</Link>
         </span>
         <span>{formatMoney(price)}₫</span>
       </div>
@@ -53,9 +53,8 @@ export default function CardFood({ description, name, img, price, id }) {
         {!loading ? (
           <button
             onClick={userInfo ? handleAdd : () => router.push("/login")}
-            className={`btn-shadow w-[100%] ${
-              userInfo ? "bg-[#e4002b]" : "bg-[#ccc]"
-            }  rounded-full relative py-2 cursor-pointer font-bold text-white`}
+            className={`btn-shadow w-[100%] ${userInfo ? "bg-[#e4002b]" : "bg-[#ccc]"
+              }  rounded-full relative py-2 cursor-pointer font-bold text-white`}
           >
             Thêm
           </button>

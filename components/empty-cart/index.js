@@ -10,7 +10,7 @@ export default function EmptyCart() {
         <div className="mt-10 text-sm">
           <Link
             className="btn-shadow font-bold bg-red-500 px-5 py-3 text-white rounded-full mt-10"
-            href="/thuc-don"
+            href="/the-loai"
           >
             Bắt đầu đặt hàng
           </Link>

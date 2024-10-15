@@ -21,11 +21,11 @@ export default function Header() {
           <li className="text-hover px-4">
             <Link
               className={`text-md uppercase roboto font-extrabold ${
-                pathname[1] === "thuc-don"
+                pathname[1] === "the-loai"
                   ? "underline decoration-cyan-500 underline-offset-2"
                   : ""
               }`}
-              href="/thuc-don"
+              href="/the-loai"
             >
               Khám phá
             </Link>

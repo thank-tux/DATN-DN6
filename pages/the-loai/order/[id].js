@@ -53,7 +53,7 @@ export default function Order() {
               {product.description}
             </span>
           </div>
-          <h2 className="text-[24px] uppercase oswald my-6">Món của bạn</h2>
+          <h2 className="text-[24px] uppercase oswald my-6">Sản phẩm của bạn</h2>
           <ul className="text-[15px]">
             <li className="flex">
               <span>Món chính : </span>
