@@ -80,12 +80,12 @@ export default function Footer() {
           <div className="flex justify-between py-10">
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                CÔNG TY LIÊN DOANH TNHH KP VIỆT NAM
+                NHÀ SÁCH TN-6 FPT
               </h2>
               <ul>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    Số 235 Hoàng Quốc Việt, Nam Từ Liêm,TP.Hà Nội
+                    Số 235 Hòa Khánh, Liên Chiểu,TP.Đà Nẵng
                   </span>
                 </li>
                 <li className="text-sm capitalize">
@@ -95,7 +95,7 @@ export default function Footer() {
                 </li>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    Email: animetplink@gmail.com
+                    Email: nhasachtn6.com
                   </span>
                 </li>
               </ul>

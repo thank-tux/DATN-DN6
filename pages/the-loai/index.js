@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ListBody from "@/components/list-body";
 import Loader from "@/components/loader";
-import CardFood from "@/components/card-food";
+import CardBook from "@/components/card-book";
 import NavScroll from "@/components/nav-scroll";
 import { useRouter } from "next/router";
 
@@ -44,7 +44,7 @@ export default function ThucDon() {
                 {products.map(
                   (_item, _index) =>
                     _item.type === item.id && (
-                      <CardFood key={_index} {..._item} />
+                      <CardBook key={_index} {..._item} />
                     )
                 )}
               </ListBody>

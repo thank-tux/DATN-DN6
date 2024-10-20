@@ -8,7 +8,7 @@ import axios from "axios";
 import { deleteElementArray } from "@/feature/firebase/firebaseAuth";
 
 export default function CardCart({
-  img,
+  img,  
   id,
   description,
   name,
@@ -102,7 +102,7 @@ export default function CardCart({
           onClick={handleDelete}
           className="cursor-pointer hover:underline roboto"
         >
-          xóa
+          XÓA
         </span>
       </div>
       <div className="absolute right-4 top-[50%]">
