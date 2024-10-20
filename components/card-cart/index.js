@@ -102,7 +102,7 @@ export default function CardCart({
           onClick={handleDelete}
           className="cursor-pointer hover:underline roboto"
         >
-          xóa
+          Xóa
         </span>
       </div>
       <div className="absolute right-4 top-[50%]">
