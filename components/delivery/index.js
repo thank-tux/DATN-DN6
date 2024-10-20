@@ -17,7 +17,7 @@ export default function Delivery() {
       <h2 className="my-2">Cảm ơn bạn đã tin dùng ♥</h2>
       <Link
         className="bg-red-400 text-white px-4 py-2 rounded-full btn-shadow oswald"
-        href={"/thuc-don"}
+        href={"/the-loai"}
       >
         Tiếp tục mua hàng
       </Link>

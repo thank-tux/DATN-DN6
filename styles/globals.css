@@ -15,9 +15,9 @@ body {
   height: 78px;
   background-size: cover;
 }
-.logo-cart {
+/* .logo-cart {
   background-position: -53px 1px;
-}
+} */
 .logo-empty-cart {
   background-position: 7px 3px;
 }
@@ -122,6 +122,7 @@ li {
 }
 .list-shadow {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
+
 }
 
 .btn-shadow {
@@ -242,3 +243,5 @@ input[type="number"] {
   width: 50px;
   height: 50px;
 }
+
+
