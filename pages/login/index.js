@@ -68,6 +68,7 @@ export default function Login() {
           password,
           phone: result.phoneNumber,
           name: result.displayName,
+          role: "user"
         };
         await addDataWithID("users", uid, data);
       }

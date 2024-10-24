@@ -9,7 +9,7 @@ export default function SliderPanes() {
     const res = axios.get("/api/slider");
     setData((await res).data);
   };
-  const settings = {
+  const products = {
     infinite: true,
     speed: 500,
     autoplay: true,
@@ -21,7 +21,7 @@ export default function SliderPanes() {
   }, []);
   return (
     <div style={{ width: "100%" }}>
-      <Slider {...settings}>
+      <Slider {...products}>
         {data.map((item) => {
           return (
             <Image

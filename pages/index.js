@@ -15,6 +15,8 @@ export default function Home() {
   const [books, setBooks] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  
+
   // Slider ref
   const sliderRef = useRef(null);
 
@@ -36,7 +38,7 @@ export default function Home() {
     fetchBook();
   }, []);
 
-  const sliderSettings = {
+  const sliderProducts = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -61,7 +63,7 @@ export default function Home() {
         
         {/* Sản phẩm mới nhất trong slider */}
         <div className="relative p-10">
-          <Slider ref={sliderRef} {...sliderSettings}>
+          <Slider ref={sliderRef} {...sliderProducts}>
             {books &&
               books
                 .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date, newest first

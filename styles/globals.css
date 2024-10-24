@@ -1,9 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "~font-awesome/css/font-awesome.css";
+
 
 body {
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family:
+  system-ui,
+  -apple-system, /* Firefox supports this but not yet `system-ui` */
+  'Segoe UI',
+  Roboto,
+  Helvetica,
+  Arial,
+  sans-serif,
+  'Apple Color Emoji',
+  'Segoe UI Emoji';
   font-size: 1rem;
   line-height: 20px;
   color: #202124;
@@ -243,5 +254,27 @@ input[type="number"] {
   width: 50px;
   height: 50px;
 }
+.modal-overlay {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.7); /* Tối hơn một chút */
+  z-index: 999; 
+}
 
-
+.modal {
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; 
+  background: white;
+  border-radius: 10px; /* Tăng độ cong cho góc */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Đổ bóng rõ hơn */
+  width: 400px; 
+  padding: 20px; /* Thêm padding để nội dung không bị chèn chúc */
+  max-width: 90%; /* Đảm bảo modal không quá rộng trên thiết bị nhỏ */
+  animation: fadeIn 0.3s; /* Thêm hiệu ứng fade-in */
+}

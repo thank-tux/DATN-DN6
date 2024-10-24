@@ -13,7 +13,7 @@ const LoginModal = ({ onClose }) => {
   const router = useRouter();
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
         <h2 className="text-2xl font-bold mb-4">Bạn chưa đăng nhập</h2>
         <p className="mb-6">Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.</p>

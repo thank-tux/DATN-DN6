@@ -18,6 +18,12 @@ export default function Register() {
   const [errorInput, setErrorInput] = useState(null);
   const [checkRule, setCheckRule] = useState(null);
   const router = useRouter();
+  const authorizeAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).send('Access denied');
+    }
+    next();
+};
 
   const handleRegister = async () => {
     const listInput = [
@@ -37,16 +43,22 @@ export default function Register() {
         type: "name",
         input: name,
       },
+      {
+        type: "role",
+        input: role,
+      },
     ];
     setErrorInput(validate(listInput));
   };
   const postData = async () => {
+    const role = account === 'lamadmin@gmail.com' ? 'admin' : 'user';
     setLoading(true);
     const res = await axios.post("/api/auth", {
       account,
       password,
       phone,
       name,
+      role,
     });
     const data = await res.data;
     setLoading(false);
@@ -67,6 +79,11 @@ export default function Register() {
       postData();
     }
   }, [errorInput]);
+
+  app.get('/admin/', authorizeAdmin, (req, res) => {
+    const database = readDatabase();
+    res.status(200).send(database.users);
+});
   return (
     <LayoutForm>
       <h2 className="oswald uppercase text-4xl mt-10">Tạo tài khoản mới</h2>
