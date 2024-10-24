@@ -106,7 +106,7 @@ export default function Home() {
         <ListBody>
           {books &&
             books.map((item, index) => {
-              if (item.type === "2") {
+              if (item.categories === "hồi ký") {
                 return <CardBook key={index} {...item} />;
               }
             })}

@@ -12,24 +12,29 @@ export default function ThucDon() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { id } = router.query;
+
   async function fecthType() {
     const res = await axios.get("/api/favourite");
     const data = await res.data;
     setTypes(data);
   }
+
   async function fecthData() {
     const res = await axios.get("/api/product");
     const data = await res.data;
     setProducts(data);
     setLoading(true);
   }
+
   useEffect(() => {
     fecthData();
     fecthType();
   }, []);
+
   if (!loading) {
     return <Loader />;
   }
+
   return (
     <div className="container m-auto">
       <NavScroll type={types} />
@@ -43,7 +48,7 @@ export default function ThucDon() {
               <ListBody>
                 {products.map(
                   (_item, _index) =>
-                    _item.type === item.id && (
+                    Array.isArray(_item.categories) && _item.categories.includes(item.name) && (
                       <CardBook key={_index} {..._item} />
                     )
                 )}

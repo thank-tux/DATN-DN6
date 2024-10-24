@@ -10,7 +10,6 @@ const DanhMucSach = () => {
     const [name, setName] = useState('');
     const [imgFile, setImgFile] = useState(null);
     const [imgURL, setImgURL] = useState('');
-    const [description, setDescription] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -29,22 +28,28 @@ const DanhMucSach = () => {
         fetchCategories();
     }, []);
 
+    const createPath = (name) => {
+        return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, '');
+    };
+
     const handleAddCategory = async (e) => {
         e.preventDefault();
-        if (!name || !description || !imgFile) return;
+        if (!name || !imgFile) return;
 
         try {
             const storageRef = ref(storage, `images/${imgFile.name}`);
             await uploadBytes(storageRef, imgFile);
             const url = await getDownloadURL(storageRef);
 
+            const path = createPath(name);
+
             await addDoc(collection(db, 'DanhMucSach'), {
                 name,
-                description,
                 img: url,
+                path, // Tạo giá trị path từ name
             });
 
-            setCategories([...categories, { name, description, img: url }]);
+            setCategories([...categories, { name, img: url, path }]);
             resetForm();
         } catch (error) {
             console.error("Error adding document: ", error);
@@ -54,14 +59,13 @@ const DanhMucSach = () => {
     const handleOpenEditModal = (category) => {
         setCurrentCategory(category);
         setName(category.name);
-        setDescription(category.description);
         setImgURL(category.img);
         setIsEditModalOpen(true);
     };
 
     const handleUpdateCategory = async (e) => {
         e.preventDefault();
-        if (!name || !description || !currentCategory) return;
+        if (!name || !currentCategory) return;
 
         try {
             let url = imgURL;
@@ -72,14 +76,16 @@ const DanhMucSach = () => {
                 url = await getDownloadURL(storageRef);
             }
 
+            const path = createPath(name);
+
             await updateDoc(doc(db, 'DanhMucSach', currentCategory.id), {
                 name,
-                description,
                 img: url,
+                path, // Cập nhật path khi chỉnh sửa
             });
 
             setCategories(categories.map((category) =>
-                category.id === currentCategory.id ? { ...category, name, description, img: url } : category
+                category.id === currentCategory.id ? { ...category, name, img: url, path } : category
             ));
 
             resetForm();
@@ -99,7 +105,6 @@ const DanhMucSach = () => {
 
     const resetForm = () => {
         setName('');
-        setDescription('');
         setImgFile(null);
         setImgURL('');
         setCurrentCategory(null);
@@ -142,7 +147,6 @@ const DanhMucSach = () => {
                     <tr className="bg-gray-200">
                         <th className="py-2 px-4 border-b">ID</th>
                         <th className="py-2 px-4 border-b">Tên danh mục</th>
-                        <th className="py-2 px-4 border-b">Mô tả</th>
                         <th className="py-2 px-4 border-b">Hình ảnh</th>
                         <th className="py-2 px-4 border-b">Hành động</th>
                     </tr>
@@ -152,7 +156,6 @@ const DanhMucSach = () => {
                         <tr key={category.id} className="hover:bg-gray-100 transition-colors">
                             <td className="py-2 px-4 border-b">{category.id}</td>
                             <td className="py-2 px-4 border-b">{category.name}</td>
-                            <td className="py-2 px-4 border-b">{category.description}</td>
                             <td className="py-2 px-4 border-b">
                                 <img src={category.img} alt={category.name} className="w-16 h-16 object-cover" />
                             </td>
@@ -181,13 +184,6 @@ const DanhMucSach = () => {
                                 placeholder="Tên danh mục"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="border p-2 mb-2 w-full"
-                                required
-                            />
-                            <textarea
-                                placeholder="Mô tả"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
                                 className="border p-2 mb-2 w-full"
                                 required
                             />
@@ -222,13 +218,6 @@ const DanhMucSach = () => {
                                 placeholder="Tên danh mục"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="border p-2 mb-2 w-full"
-                                required
-                            />
-                            <textarea
-                                placeholder="Mô tả"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
                                 className="border p-2 mb-2 w-full"
                                 required
                             />

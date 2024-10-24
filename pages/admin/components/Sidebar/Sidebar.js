@@ -81,10 +81,10 @@ export default function Sidebar() {
             {/* Navigation */}
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               {[
-                { href: "/admin/", icon: "fas fa-tv", label: "Dashboard" },
-                { href: "/admin/categories", icon: "fas fa-list", label: "categories" },
-                { href: "/admin/products", icon: "fas fa-book", label: "Products" },
-                { href: "/admin/users", icon: "fas fa-user", label: "Users" },
+                { href: "/admin/", icon: "fas fa-tv", label: "Tổng quan" },
+                { href: "/admin/categories", icon: "fas fa-list", label: "Danh mục-Thể loại" },
+                { href: "/admin/products", icon: "fas fa-book", label: "Sách" },
+                { href: "/admin/users", icon: "fas fa-user", label: "Người dùng" },
               ].map(({ href, icon, label }) => (
                 <li className="items-center" key={href}>
                   <Link href={href} className={`text-xs uppercase py-3 font-bold block ${router.pathname.includes(href) ? "text-lightBlue-500 hover:text-lightBlue-600" : "text-blueGray-700 hover:text-blueGray-500"}`}>

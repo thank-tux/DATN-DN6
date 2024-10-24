@@ -53,14 +53,14 @@ export default function Dashboard() {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     if (!name || !price || !imageFile || selectedCategories.length === 0) return;
-  
+
     try {
       const storageRef = ref(storage, `images/${imageFile.name}`);
       await uploadBytes(storageRef, imageFile);
       const url = await getDownloadURL(storageRef);
-  
+
       const timestamp = new Date(); // Lấy thời gian hiện tại
-  
+
       await addDoc(collection(db, 'products'), {
         name,
         price: parseFloat(price),
@@ -68,18 +68,18 @@ export default function Dashboard() {
         categories: selectedCategories,
         timestamp: timestamp.toISOString(), // Lưu thời gian dưới dạng chuỗi ISO
       });
-  
+
       setProducts([...products, { name, price: parseFloat(price), img: url, categories: selectedCategories, timestamp: timestamp.toISOString() }]);
       resetForm();
     } catch (error) {
       console.error("Error adding document: ", error);
     }
   };
-  
+
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
-    if (!name || !price || !author || !selectedCategory || !description || !currentProduct) return;
+    if (!name || !price || !author || !selectedCategories.length || !description || !currentProduct) return;
 
     try {
       let url = imageURL;
@@ -94,13 +94,15 @@ export default function Dashboard() {
         name,
         price: parseFloat(price),
         author,
-        categories: selectedCategory,
+        categories: selectedCategories,  // Chỉnh lại cho khớp với phần thêm
         mota: description,
         img: url,
       });
 
       setProducts(products.map((product) =>
-        product.id === currentProduct.id ? { ...product, name, price: parseFloat(price), author, categories: selectedCategory, mota: description, img: url } : product
+        product.id === currentProduct.id
+          ? { ...product, name, price: parseFloat(price), author, categories: selectedCategories, mota: description, img: url }
+          : product
       ));
 
       resetForm();
@@ -109,6 +111,7 @@ export default function Dashboard() {
       console.error("Error updating document: ", error);
     }
   };
+
 
   const handleOpenEditModal = (product) => {
     setCurrentProduct(product);
@@ -175,7 +178,7 @@ export default function Dashboard() {
 
   return (
     <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4">QUẢN LÝ SÁCH</h1>
       <input
         type="text"
         placeholder="Tìm sản phẩm..."
@@ -206,7 +209,7 @@ export default function Dashboard() {
           {currentProducts.map(product => (
             <tr key={product.id} className="hover:bg-gray-100 transition-colors">
               <td className="py-4 px-6 border-b text-left">{product.name}</td>
-              <td className="py-4 px-6 border-b text-left">${product.price}</td>
+              <td className="py-4 px-6 border-b text-left">{product.price} vn₫</td>
               <td className="py-4 px-6 border-b text-left">{product.author}</td>
               <td className="py-4 px-6 border-b text-left">{product.categories}</td>
               <td className="py-4 px-6 border-b text-left truncate max-w-xs">
@@ -344,17 +347,30 @@ export default function Dashboard() {
                 className="border p-2 mb-2 w-full"
                 required
               />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="border p-2 mb-2 w-full"
-                required
-              >
-                <option value="">Chọn thể loại</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.name}>{category.name}</option>
-                ))}
-              </select>
+       <div className="flex flex-wrap gap-2 mb-2">
+  {categories.map((category) => (
+    <button
+      key={category.id}
+      onClick={(e) => {
+        e.preventDefault(); // Ngăn chặn việc submit form nếu có
+        e.stopPropagation(); // Ngăn chặn sự kiện click lan truyền
+        // Chỉ cập nhật danh mục, không đóng modal
+        setSelectedCategories((prev) =>
+          prev.includes(category.name)
+            ? prev.filter((cat) => cat !== category.name) // Bỏ chọn
+            : [...prev, category.name] // Thêm vào danh mục đã chọn
+        );
+      }}
+      className={`px-4 py-2 rounded ${selectedCategories.includes(category.name) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+        }`}
+    >
+      {category.name}
+    </button>
+  ))}
+</div>
+
+
+
               <textarea
                 placeholder="Mô tả sản phẩm"
                 value={description}

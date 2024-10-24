@@ -52,19 +52,25 @@ export default function Order() {
     const data = await res.data;
     setProduct(data);
     setLoading(true);
-    fecthRelatedProducts(data.type);
+    // Gọi hàm lấy sản phẩm liên quan dựa trên các danh mục của sản phẩm hiện tại
+    fecthRelatedProducts(data.categories);
   };
-
-  const fecthRelatedProducts = async (category) => {
+  
+  const fecthRelatedProducts = async (categories) => {
     const res = await axios.get("/api/product");
     const data = res.data;
+  
+    // Lọc các sản phẩm có danh mục trùng khớp với danh mục hiện tại (categories)
     const filteredProducts = data.filter(
-      (item) => item.type === category && item.id !== id
+      (item) => 
+        Array.isArray(item.categories) &&
+        item.categories.some((category) => categories.includes(category)) && 
+        item.id !== id
     );
+  
     setRelatedProducts(filteredProducts);
   };
-
-
+  
   const handleAddItem = async () => {
     if (!userInfo) {
       setShowLoginModal(true);
@@ -78,7 +84,7 @@ export default function Order() {
     }
     // router.push("/thuc-don");
   };
-
+  
   useEffect(() => {
     fecthData();
   }, [id]);
