@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     <>
       <main>
         <Head>
-          <title>Welcome to BookStore</title>
+          <title>Thiên Lý BookStore</title>
         </Head>
         <Header />
         {children}

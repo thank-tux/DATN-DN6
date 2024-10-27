@@ -44,7 +44,7 @@ export default function Footer() {
               <ul>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    nhasach@gmail.com
+                    nhasachthienly@gmail.com
                   </span>
                 </li>
               </ul>
@@ -80,7 +80,7 @@ export default function Footer() {
           <div className="flex justify-between py-10">
             <div className="p-4">
               <h2 className="capitalize text-white font-semibold tracking-wide text-lg">
-                NHÀ SÁCH TN-6 FPT
+                NHÀ SÁCH THIÊN LÝ
               </h2>
               <ul>
                 <li className="text-sm capitalize">
@@ -95,7 +95,7 @@ export default function Footer() {
                 </li>
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
-                    Email: nhasachtn6.com
+                    Email: nhasachthienly@gmail.com
                   </span>
                 </li>
               </ul>

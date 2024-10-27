@@ -1,3 +1,4 @@
+// pages/_app.js
 import "@/styles/globals.css";
 import { AuthContextProvider } from "@/feature/auth-context";
 import 'font-awesome/css/font-awesome.css'; 
@@ -9,16 +10,18 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { auth, db } from '@/feature/firebase/firebase'; 
 import { doc, getDoc } from 'firebase/firestore';
+import Loading from "@/components/loading"; // Import Loading component
+import Modal from "@/components/alert"; // Import Modal component
 
 export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState(null);
+  const [showModal, setShowModal] = useState(false); 
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        // Kiểm tra nếu đã có userRole, tránh lặp lại hành động.
         if (!userRole) {
           const userDocRef = doc(db, 'users', user.uid); 
           const userDocSnap = await getDoc(userDocRef);
@@ -27,23 +30,33 @@ export default function App({ Component, pageProps }) {
             const userData = userDocSnap.data();
             setUserRole(userData.role);
 
-            if (userData.role !== 'admin') {
-              router.push('/'); // Chuyển hướng nếu không phải admin
+          
+            if (userData.role !== 'admin' && router.pathname.startsWith('/admin')) {
+              setShowModal(true); 
             }
           } else {
-            router.push('/'); // Chuyển hướng nếu không tìm thấy document user
+            router.push('/'); 
           }
         }
       } else {
-        router.push('/login'); // Chuyển hướng khi không đăng nhập
+        router.push('/login'); 
       }
-      setLoading(false); // Chỉ set loading sau khi hoàn thành kiểm tra
+      setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [router, userRole]); // Thêm userRole vào dependency để không gọi lại khi đã có userRole
+  }, [router, userRole]);
 
-  if (loading) return <div>Loading...</div>; // Hiển thị loading trong khi chờ
+  const closeModal = () => {
+    setShowModal(false);
+    router.push('/'); 
+  };
+
+  if (loading) return <Loading />; 
+
+  if (showModal) {
+    return <Modal message="Bạn không đủ quyền truy cập vào trang này" onClose={closeModal} />; // Hiển thị modal nếu không phải admin
+  }
 
   const LayoutComponent = Component.layout || Layout;
   return (

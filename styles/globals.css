@@ -21,7 +21,7 @@ body {
   overflow-x: hidden;
 }
 .logo-url {
-  background-image: url(https://d1csarkz8obe9u.cloudfront.net/posterpreviews/book-logo-design-template-f6b9970110157ce063468374ebb5525b_screen.jpg?ts=1673635010);
+  background-image: url(https://img.upanh.tv/2024/10/25/author-1.png);
   width: 78px;
   height: 78px;
   background-size: cover;
@@ -41,7 +41,7 @@ a {
   }
   .icon-avatar {
     position: relative;
-    background: url(https://d1csarkz8obe9u.cloudfront.net/posterpreviews/book-logo-design-template-f6b9970110157ce063468374ebb5525b_screen.jpg?ts=1673635010)
+    background: url(https://img.upanh.tv/2024/10/25/author-1.png)
       no-repeat;
     background-size: cover;
     width: 78px;

@@ -55,22 +55,22 @@ export default function Order() {
     // Gọi hàm lấy sản phẩm liên quan dựa trên các danh mục của sản phẩm hiện tại
     fecthRelatedProducts(data.categories);
   };
-  
+
   const fecthRelatedProducts = async (categories) => {
     const res = await axios.get("/api/product");
     const data = res.data;
-  
+
     // Lọc các sản phẩm có danh mục trùng khớp với danh mục hiện tại (categories)
     const filteredProducts = data.filter(
-      (item) => 
+      (item) =>
         Array.isArray(item.categories) &&
-        item.categories.some((category) => categories.includes(category)) && 
+        item.categories.some((category) => categories.includes(category)) &&
         item.id !== id
     );
-  
+
     setRelatedProducts(filteredProducts);
   };
-  
+
   const handleAddItem = async () => {
     if (!userInfo) {
       setShowLoginModal(true);
@@ -84,7 +84,7 @@ export default function Order() {
     }
     // router.push("/thuc-don");
   };
-  
+
   useEffect(() => {
     fecthData();
   }, [id]);
@@ -114,7 +114,7 @@ export default function Order() {
         </div>
 
         {/* Thông tin sản phẩm */}
-        <div className="w-full md:w-2/3">
+        <div className="w-full md:w-2/3 ">
           <div className="bg-white p-8 rounded-lg shadow-lg">
             {/* Tên sách */}
             <h2 className="text-4xl md:text-5xl font-bold uppercase oswald mb-4">
@@ -131,15 +131,25 @@ export default function Order() {
               <h3 className="text-2xl font-semibold uppercase mb-2">
                 Chi tiết sản phẩm
               </h3>
-              <ul className="text-gray-600 text-md leading-7">
+              <ul className="text-gray-600 text-lg leading-8">
                 <li><strong>Tên sách:</strong> {product.name}</li>
                 <li><strong>Tác giả:</strong> {product.author || "Đang cập nhật"}</li>
-                <li><strong>Thể loại:</strong> {product.categories || "Đang cập nhật"}</li>
+                <li className="capitalize">
+                  <strong>Thể loại:</strong>{" "}
+                  {product.categories
+                    ? product.categories.map((category) =>
+                      category.charAt(0).toUpperCase() + category.slice(1)
+                    ).join(', ')
+                    : "Đang cập nhật"}
+                </li>
                 <li>
                   <strong>Giá:</strong>
-                  {product.price ? product.price.toLocaleString('vi-VN') : "Đang cập nhật"}₫
+                  <span className="text-red-600 text-xl ml-2 font-bold">
+                    {product.price ? product.price.toLocaleString('vi-VN') : "Đang cập nhật"}₫
+                  </span>
                 </li>
               </ul>
+
             </div>
 
             {/* Nút Thêm vào giỏ và bộ đếm số lượng */}

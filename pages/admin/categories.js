@@ -13,6 +13,8 @@ const DanhMucSach = () => {
     const [currentCategory, setCurrentCategory] = useState(null);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+    const [deleteCategoryId, setDeleteCategoryId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
@@ -46,7 +48,7 @@ const DanhMucSach = () => {
             await addDoc(collection(db, 'DanhMucSach'), {
                 name,
                 img: url,
-                path, // Tạo giá trị path từ name
+                path,
             });
 
             setCategories([...categories, { name, img: url, path }]);
@@ -81,7 +83,7 @@ const DanhMucSach = () => {
             await updateDoc(doc(db, 'DanhMucSach', currentCategory.id), {
                 name,
                 img: url,
-                path, // Cập nhật path khi chỉnh sửa
+                path,
             });
 
             setCategories(categories.map((category) =>
@@ -94,10 +96,16 @@ const DanhMucSach = () => {
         }
     };
 
-    const handleDeleteCategory = async (id) => {
+    const confirmDeleteCategory = (id) => {
+        setDeleteCategoryId(id);
+        setIsDeleteConfirmOpen(true);
+    };
+
+    const handleDeleteCategory = async () => {
         try {
-            await deleteDoc(doc(db, 'DanhMucSach', id));
-            setCategories(categories.filter(category => category.id !== id));
+            await deleteDoc(doc(db, 'DanhMucSach', deleteCategoryId));
+            setCategories(categories.filter(category => category.id !== deleteCategoryId));
+            setIsDeleteConfirmOpen(false);
         } catch (error) {
             console.error("Error deleting document: ", error);
         }
@@ -112,7 +120,6 @@ const DanhMucSach = () => {
         setIsEditModalOpen(false);
     };
 
-    // Tìm kiếm không dấu
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -144,26 +151,26 @@ const DanhMucSach = () => {
 
             <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
                 <thead>
-                    <tr className="bg-gray-200">
-                        <th className="py-2 px-4 border-b">ID</th>
-                        <th className="py-2 px-4 border-b">Tên danh mục</th>
-                        <th className="py-2 px-4 border-b">Hình ảnh</th>
-                        <th className="py-2 px-4 border-b">Hành động</th>
+                <tr className="bg-blue-500 text-white">
+                        <th className="py-3 px-4 border-b font-semibold text-center">ID</th>
+                        <th className="py-3 px-4 border-b font-semibold text-center">Tên danh mục</th>
+                        <th className="py-3 px-4 border-b font-semibold text-center">Hình ảnh</th>
+                        <th className="py-3 px-4 border-b font-semibold text-center">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredCategories.map(category => (
                         <tr key={category.id} className="hover:bg-gray-100 transition-colors">
-                            <td className="py-2 px-4 border-b">{category.id}</td>
-                            <td className="py-2 px-4 border-b">{category.name}</td>
-                            <td className="py-2 px-4 border-b">
-                                <img src={category.img} alt={category.name} className="w-16 h-16 object-cover" />
+                            <td className="py-3 px-4 border-b text-center">{category.id}</td>
+                            <td className="py-3 px-4 border-b text-center font-bold">{category.name}</td>
+                            <td className="py-3 px-4 border-b text-center">
+                                <img src={category.img} alt={category.name} className="w-16 h-16 object-cover mx-auto" />
                             </td>
-                            <td className="py-2 px-4 border-b">
-                                <button onClick={() => handleOpenEditModal(category)} className="bg-yellow-500 text-white px-2 py-1 rounded">
+                            <td className="py-3 px-4 border-b text-center">
+                                <button onClick={() => handleOpenEditModal(category)} className="bg-yellow-500 text-white px-3 py-1 rounded mx-1">
                                     Sửa
                                 </button>
-                                <button onClick={() => handleDeleteCategory(category.id)} className="bg-red-500 text-white px-2 py-1 rounded ml-2">
+                                <button onClick={() => confirmDeleteCategory(category.id)} className="bg-red-500 text-white px-3 py-1 rounded mx-1">
                                     Xóa
                                 </button>
                             </td>
@@ -172,11 +179,9 @@ const DanhMucSach = () => {
                 </tbody>
             </table>
 
-            {/* Modal thêm danh mục */}
-
             {isAddModalOpen && (
                 <div className="modal-overlay" onClick={resetForm}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}> {/* Ngăn không cho click vào modal đóng overlay */}
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <h2 className="text-xl font-bold mb-2">Thêm danh mục mới</h2>
                         <form onSubmit={handleAddCategory}>
                             <input
@@ -207,10 +212,9 @@ const DanhMucSach = () => {
                 </div>
             )}
 
-            {/* Modal chỉnh sửa danh mục */}
             {isEditModalOpen && (
                 <div className="modal-overlay" onClick={resetForm}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}> {/* Ngăn không cho click vào modal đóng overlay */}
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <h2 className="text-xl font-bold mb-2">Chỉnh sửa danh mục</h2>
                         <form onSubmit={handleUpdateCategory}>
                             <input
@@ -240,9 +244,32 @@ const DanhMucSach = () => {
                     </div>
                 </div>
             )}
+
+            {isDeleteConfirmOpen && (
+                <div className="modal-overlay" onClick={() => setIsDeleteConfirmOpen(false)}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <h2 className="text-xl font-bold mb-2">Xác nhận xóa danh mục</h2>
+                        <p>Bạn có chắc chắn muốn xóa danh mục này không?</p>
+                        <div className="flex justify-between mt-4">
+                            <button
+                                onClick={handleDeleteCategory}
+                                className="bg-red-500 text-white px-4 py-2 rounded"
+                            >
+                                Xác nhận
+                            </button>
+                            <button
+                                onClick={() => setIsDeleteConfirmOpen(false)}
+                                className="bg-gray-500 text-white px-4 py-2 rounded"
+                            >
+                                Hủy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
-export default DanhMucSach;
 DanhMucSach.layout = Admin;
+export default DanhMucSach;

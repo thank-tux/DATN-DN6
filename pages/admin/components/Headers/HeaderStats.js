@@ -8,6 +8,7 @@ export default function HeaderStats() {
   return (
     <>
       {/* Header */}
+      <title>Admin BookStore</title>
       <div className="">
         <div className="">
           <div>

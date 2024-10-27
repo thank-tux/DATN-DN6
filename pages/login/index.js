@@ -38,6 +38,7 @@ export default function Login() {
         account,
         password
       );
+      
       if (!error) {
         const id = result.user.uid;
         const user = await getItem("users", id);

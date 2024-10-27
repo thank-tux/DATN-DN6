@@ -30,38 +30,41 @@ export default function CardBook({ description, name, img, price, id }) {
     increment();
   };
   return (
-    <div className="mb-3 mx-2 relative rounded list-shadow p-[10px] h-[510px]">
-      <div className="overflow-hidden">
-        <Image
-          className="min-h-60 max-h-80 w-full hover:scale-110 duration-700"
-          src={img}
-          width={200}
-          height={200}
-          alt=""
-        />
-      </div>
-      <div className="roboto flex flex-row items-baseline justify-between px-2 text-xl font-semibold capitalize">
-        <span>
-          <Link href={`/the-loai/order/${id}`}>{name}</Link>
-        </span>
-        <span>{formatMoney(price)}₫</span>
-      </div>
-      <p className="font-medium px-2 py-3 text-justify break-words pb-14 text-[14px] text-[#444]">
-        {description}
-      </p>
-      <div className="absolute left-0 bottom-[10px] px-2 pb-2 w-[100%]">
-        {!loading ? (
-          <button
-            onClick={userInfo ? handleAdd : () => router.push("/login")}
-            className={`btn-shadow w-[100%] ${userInfo ? "bg-[#e4002b]" : "bg-[#ccc]"
-              }  rounded-full relative py-2 cursor-pointer font-bold text-white`}
-          >
-            Thêm
-          </button>
-        ) : (
-          <ButtonLoading />
-        )}
-      </div>
+    <div className="mb-4 mx-3 relative rounded-lg shadow-lg p-3 h-[480px] w-[250px] bg-white">
+    <div className="relative overflow-hidden rounded-md h-[280px] w-full">
+      <Image
+        className="object-cover hover:scale-105 transition-transform duration-500"
+        src={img}
+        alt="Product Image"
+        layout="fill"
+      />
     </div>
+    <div className="roboto flex flex-col mt-3 px-2">
+      <Link href={`/the-loai/order/${id}`} className="text-lg font-semibold capitalize">
+        {name}
+      </Link>
+      <span className="text-red-600 font-bold text-xl mt-1">
+        {formatMoney(price)}₫
+      </span>
+    </div>
+    <p className="font-medium px-2 py-2 text-justify text-sm text-gray-600">
+      {description}
+    </p>
+    <div className="absolute left-0 bottom-3 px-2 w-full">
+      {!loading ? (
+        <button
+          onClick={userInfo ? handleAdd : () => router.push("/login")}
+          className={`btn-shadow w-full ${userInfo ? "bg-red-600" : "bg-gray-400"
+            } rounded-full py-2 cursor-pointer font-bold text-white transition-colors duration-300`}
+        >
+          Thêm
+        </button>
+      ) : (
+        <ButtonLoading />
+      )}
+    </div>
+  </div>
+
+
   );
 }

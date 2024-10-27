@@ -5,7 +5,7 @@ import SliderPanes from "@/components/slider";
 import ListBody from "@/components/list-body";
 import CardList from "@/components/card-list";
 import CardBook from "@/components/card-book";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; // Import slick-carousel styles
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import Font Awesome icons
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
@@ -15,7 +15,7 @@ export default function Home() {
   const [books, setBooks] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  
+
 
   // Slider ref
   const sliderRef = useRef(null);
@@ -42,7 +42,7 @@ export default function Home() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,  // Number of slides to show at once
+    slidesToShow: 4,  // Number of slides to show at once
     slidesToScroll: 1,
     autoplay: true,  // Autoplay enabled
     autoplaySpeed: 3000,  // Change slide every 3 seconds
@@ -60,7 +60,7 @@ export default function Home() {
             SÁCH MỚI CẬP NHẬT
           </span>
         </h2>
-        
+
         {/* Sản phẩm mới nhất trong slider */}
         <div className="relative p-10">
           <Slider ref={sliderRef} {...sliderProducts}>
@@ -106,10 +106,11 @@ export default function Home() {
         <ListBody>
           {books &&
             books.map((item, index) => {
-              if (item.categories === "hồi ký") {
+              if (Array.isArray(item.categories) && item.categories.includes("Khoa học Viễn tưởng")) {
                 return <CardBook key={index} {...item} />;
               }
             })}
+
         </ListBody>
       </div>
     </div>

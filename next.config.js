@@ -15,6 +15,8 @@ const nextConfig = {
       "i.pinimg.com",
       "static.vecteezy.com",
       "png.pngtree.com",
+      "img.upanh.tv",
+      "lh3.googleusercontent.com",
     ],
   },
 };

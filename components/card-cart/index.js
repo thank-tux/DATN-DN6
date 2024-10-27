@@ -21,6 +21,7 @@ export default function CardCart({
   const [value, setValue] = useState(quantity);
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState(true);
+  
   const handleDecrement = async () => {
     setLoading(true);
     const data = {

@@ -21,7 +21,7 @@ export default function UserBody({ children }) {
       <div className="w-[30%]">
         <div className="sticky top-[150px] text-white bg-[#202124] rounded-xl py-4">
           <div
-            className=" h-[97px] bg-center mt-16 mb-10 bg-no-repeat bg-[url(https://media.istockphoto.com/id/509862358/vector/flat-icon-is-a-stack-of-books.jpg?s=612x612&w=0&k=20&c=44I05zWvgSQd9hK7EeXrlc9saXLDw-z-L5-UCgh9xFE=)] bg-[length:100px_100px]"
+            className=" h-[97px] bg-center mt-16 mb-10 bg-no-repeat bg-[url(https://img.upanh.tv/2024/10/25/Untitled-design.png)] bg-[length:100px_100px]"
           ></div>
 
           <h2 className="flex flex-col items-center oswald text-3xl">
