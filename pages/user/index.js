@@ -12,63 +12,83 @@ export default function User() {
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(true);
-  async function fecthData() {
-    const uid = userInfo.uid;
-    const res = await axios.post("/api/item", { name: "users", id: uid });
-    const data = await res.data;
-    setName(data.name);
-    setEmail(data.account);
-    setPhone(data.phone ? data.phone : "");
-    setLoading(true);
+
+  async function fetchData() {
+    try {
+      const uid = userInfo.uid;
+      const res = await axios.post("/api/item", { name: "users", id: uid });
+      const data = res.data;
+
+      if (data) {
+        setName(data.name);
+        setEmail(data.account);
+        setPhone(data.phone || "");
+      } else {
+        console.warn("Data not found or invalid format:", data);
+      }
+
+      setLoading(true);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   }
+
   useEffect(() => {
     if (userInfo) {
-      fecthData();
+      fetchData();
     }
   }, [userInfo]);
+
   const handleUpdate = async () => {
     setLoadingBtn(false);
     const result = {
       name,
       account: email,
       phone,
-      col: "users",
+      col: "user",
       id: userInfo.uid,
     };
-    const res = await axios.put("/api/item", result);
-    const data = await res.data;
-    if (data) {
-      setLoadingBtn(true);
+
+    try {
+      const res = await axios.put("/api/item", result);
+      const data = res.data;
+      if (data) {
+        setLoadingBtn(true);
+      }
+      console.log(data);
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      setLoadingBtn(true); // Reset loading button in case of error
     }
-    console.log(data);
   };
+
   return loading ? (
     <UserBody>
       <div className="md:w-[550px]">
-        <h2 className="oswald uppercase text-4xl">chi tiết tài khoản</h2>
+        <h2 className="oswald uppercase text-4xl"> chi tiết tài khoản </h2>{" "}
         <TextInput
           name={"Tên của bạn"}
           callback={(text) => setName(text)}
           value={name}
-        />
+        />{" "}
         <TextInput
           name={"Email của bạn"}
           callback={(text) => setEmail(text)}
           value={email}
           disabled={true}
-        />
+        />{" "}
         <TextInput
           name={"Số điện thoại của bạn"}
           callback={(text) => setPhone(text)}
           value={phone}
-        />
+        />{" "}
         <button
           onClick={handleUpdate}
           className={`relative block ${
             !loadingBtn && "opacity-30"
           } btn-shadow w-[100%] rounded-full my-4 p-4 bg-red-600 text-white font-bold`}
         >
-          Cập nhật tài khoản
+          Cập nhật tài khoản{" "}
           <div
             className={`${
               loadingBtn ? "hidden" : "block"
@@ -76,10 +96,10 @@ export default function User() {
           >
             <AiOutlineLoading
               className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-black`}
-            />
-          </div>
-        </button>
-      </div>
+            />{" "}
+          </div>{" "}
+        </button>{" "}
+      </div>{" "}
     </UserBody>
   ) : null;
 }

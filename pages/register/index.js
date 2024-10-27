@@ -18,14 +18,9 @@ export default function Register() {
   const [errorInput, setErrorInput] = useState(null);
   const [checkRule, setCheckRule] = useState(null);
   const router = useRouter();
-  const authorizeAdmin = (req, res, next) => {
-    if (req.user.role !== 'admin') {
-        return res.status(403).send('Access denied');
-    }
-    next();
-};
 
   const handleRegister = async () => {
+    const role = account === "lamadmin@gmail.com" ? "admin" : "user"; // Define role here
     const listInput = [
       {
         type: "password",
@@ -49,50 +44,51 @@ export default function Register() {
       },
     ];
     setErrorInput(validate(listInput));
-  };
-  const postData = async () => {
-    const role = account === 'lamadmin@gmail.com' ? 'admin' : 'user';
-    setLoading(true);
-    const res = await axios.post("/api/auth", {
-      account,
-      password,
-      phone,
-      name,
-      role,
-    });
-    const data = await res.data;
-    setLoading(false);
-    if (data.login) {
-      alert("Tạo tài khoản thành công");
-      router.push("/login");
-    } else {
-      alert("Tài khoản đã có người sử dụng");
+    if (Object.keys(validate(listInput)).length === 0) {
+      postData(role); // Pass role to postData
     }
   };
+
+  const postData = async (role) => {
+    // Accept role as a parameter
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/auth", {
+        account,
+        password,
+        phone,
+        name,
+        role,
+      });
+      const data = await res.data;
+      setLoading(false);
+      if (data.login) {
+        alert("Tạo tài khoản thành công");
+        router.push("/login");
+      } else {
+        alert("Tài khoản đã có người sử dụng");
+      }
+    } catch (error) {
+      console.error("Error creating account:", error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (userInfo) {
       router.push("/user");
     }
   }, [userInfo]);
-  useEffect(() => {
-    if (errorInput && Object.keys(errorInput).length === 0) {
-      postData();
-    }
-  }, [errorInput]);
 
-  app.get('/admin/', authorizeAdmin, (req, res) => {
-    const database = readDatabase();
-    res.status(200).send(database.users);
-});
   return (
     <LayoutForm>
-      <h2 className="oswald uppercase text-4xl mt-10">Tạo tài khoản mới</h2>
+      <h2 className="oswald uppercase text-4xl mt-10"> Tạo tài khoản mới </h2>{" "}
       <TextInput
         name="Nhập họ tên đầy đủ"
         value={name}
         callback={(text) => setName(text)}
         error={errorInput && errorInput.name}
-      />
+      />{" "}
       <TextInput
         name="Nhập số điện thoại"
         value={phone}
@@ -105,7 +101,7 @@ export default function Register() {
         value={account}
         error={errorInput && errorInput.account}
         callback={(text) => setAccount(text)}
-      />
+      />{" "}
       <TextInput
         name="Nhập mật khẩu"
         value={password}
@@ -118,22 +114,22 @@ export default function Register() {
           type="checkbox"
           value={checkRule}
           onChange={() => setCheckRule(!checkRule)}
-        />
-        <span>Tôi đã đọc và đồng ý với</span>
+        />{" "}
+        <span> Tôi đã đọc và đồng ý với </span>{" "}
         <span className="font-bold ml-1 capitalize">
-          chính sách hoạt động của 
-        </span>
+          chính sách hoạt động của{" "}
+        </span>{" "}
         {checkRule === false && (
           <span className="absolute text-xs text-red-400 bottom-[-20px]">
-            Bạn chưa đồng ý với điều khoản dịch vụ
+            Bạn chưa đồng ý với điều khoản dịch vụ{" "}
           </span>
-        )}
-      </div>
+        )}{" "}
+      </div>{" "}
       <button
         onClick={handleRegister}
         className="relative w-[100%] p-4 bg-[#e4002b] rounded-full text-white font-bold roboto btn-shadow my-4"
       >
-        Tạo tài khoản
+        Tạo tài khoản{" "}
         <div
           className={`${
             !loading ? "hidden" : "block"
@@ -141,15 +137,15 @@ export default function Register() {
         >
           <AiOutlineLoading
             className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-red-500`}
-          />
-        </div>
-      </button>
+          />{" "}
+        </div>{" "}
+      </button>{" "}
       <div className="text-center">
-        <span className="text-sm">Có tài khoản ?</span>
+        <span className="text-sm"> Có tài khoản ? </span>{" "}
         <Link className="font-semibold text-sm hover:underline" href={"/login"}>
-          Đăng nhập
-        </Link>
-      </div>
+          Đăng nhập{" "}
+        </Link>{" "}
+      </div>{" "}
     </LayoutForm>
   );
 }
