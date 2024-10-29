@@ -1,4 +1,3 @@
-// pages/_app.js
 import "@/styles/globals.css";
 import { AuthContextProvider } from "@/feature/auth-context";
 import "font-awesome/css/font-awesome.css";

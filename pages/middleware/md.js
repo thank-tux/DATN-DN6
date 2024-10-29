@@ -1,44 +1,33 @@
+// middleware.js
 import { NextResponse } from "next/server";
-import { getAuth } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "feature/firebase/firebase";
+import { auth, db } from "./firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
-export async function middleware(req) {
-  const url = req.nextUrl.clone();
+export async function middleware(request) {
+  const { pathname } = request.nextUrl;
 
-  // Chỉ chạy middleware khi người dùng cố truy cập vào trang admin
-  if (!url.pathname.startsWith("/admin")) return NextResponse.next();
+  // Kiểm tra nếu người dùng truy cập vào đường dẫn /admin
+  if (pathname.startsWith("/admin")) {
+    const user = auth.currentUser;
 
-  const auth = getAuth();
-  const user = auth.currentUser;
+    if (user) {
+      // Lấy role của người dùng từ Firestore
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const role = userDoc.exists() ? userDoc.data().role : "";
 
-  // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
-  if (!user) {
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
-
-  // Lấy role từ Firestore
-  const db = getFirestore();
-  const userDocRef = doc(db, "users", user.uid);
-  const userDocSnap = await getDoc(userDocRef);
-
-  if (userDocSnap.exists()) {
-    const userData = userDocSnap.data();
-
-    // Nếu role là "user", chặn truy cập vào path admin và chuyển hướng về trang chính
-    if (userData.role === "user") {
-      url.pathname = "/";
-      return NextResponse.redirect(url);
+      if (role !== "admin") {
+        // Redirect về trang chủ nếu không phải là admin
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    } else {
+      // Redirect đến trang đăng nhập nếu chưa đăng nhập
+      return NextResponse.redirect(new URL("/login", request.url));
     }
-  } else {
-    // Nếu không tìm thấy dữ liệu người dùng, chuyển hướng về trang chính
-    url.pathname = "/";
-    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/:path*"], // Áp dụng middleware cho tất cả đường dẫn admin
+  matcher: ["/admin/:path*"],
 };
