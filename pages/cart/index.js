@@ -4,7 +4,7 @@ import Loader from "@/components/loader";
 import CardCart from "@/components/card-cart";
 import EmptyCart from "@/components/empty-cart";
 import axios from "axios";
-import { formatMoney, getDate } from "@/utils";
+import { formatMoney } from "@/utils";
 import Link from "next/link";
 
 export default function Cart() {
@@ -21,17 +21,20 @@ export default function Cart() {
       name: "cart",
     });
     const data = res.data;
+
     if (data) {
-      setTotalBook(data.arrayCart.length);
-      data.arrayCart.forEach((element) => {
+      const updatedCart = data.arrayCart.filter(item => item.visible); // Lọc sản phẩm có visible là true
+      setTotalBook(updatedCart.length);
+
+      updatedCart.forEach((element) => {
         value += element.quantity * element.price;
       });
-      console.log(value);
       setTotal(value);
-      setCart(data.arrayCart);
+      setCart(updatedCart);
     }
     setLoading(true);
   };
+
   const handleCounter = (data) => {
     if (!data.quantity) {
       setTotal(parseInt(total) + parseInt(data.price));
@@ -40,18 +43,21 @@ export default function Cart() {
       setTotalBook(totalBook - 1);
     }
   };
+
   useEffect(() => {
     if (userInfo) {
       fecthData();
     }
   }, [userInfo]);
+
   if (!loading) {
     return <Loader />;
   }
+
   return (
     <div className="container m-auto ">
-      <div className=" before:left-[17px] page-with-bar">
-        <h2 className="oswald text-4xl py-4  block">Giỏ hàng của tôi</h2>
+      <div className=" before:left-[17px] ">
+        <h2 className="oswald text-4xl py-4 block">Giỏ hàng của tôi</h2>
       </div>
       <div className="flex justify-between">
         {totalBook === 0 ? (
@@ -59,15 +65,13 @@ export default function Cart() {
         ) : (
           <>
             <div className="w-[60%]">
-              {cart.map((item) => {
-                return (
-                  <CardCart
-                    callback={(value) => handleCounter(value)}
-                    key={item.id}
-                    {...item}
-                  />
-                );
-              })}
+              {cart.map((item) => (
+                <CardCart
+                  callback={(value) => handleCounter(value)}
+                  key={item.id}
+                  {...item}
+                />
+              ))}
             </div>
             <div className="w-[38%]">
               <div className="sticky top-[150px] my-4 box-shadow p-6 rounded-xl ">

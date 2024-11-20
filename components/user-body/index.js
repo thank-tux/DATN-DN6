@@ -28,16 +28,10 @@ export default function UserBody({ children }) {
             <span>Xin chào,</span>
             <span>{userInfo.displayName}</span>
           </h2>
-          <button
-            className="ml-10 underline hover:no-underline mt-2"
-            onClick={handleSignOut}
-          >
-            Đăng xuất
-          </button>
           <ul className="ml-10 mt-10 ">
             <li
               className={`${pathname === "/user/previous-orders" && "text-[#fff]"
-                } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
+                } text-[#999] hover:text-[#fff] cursor-pointer my-8 uppercase font-semibold`}
             >
               <Link href={"/user/previous-orders"}>Đơn hàng đã đặt</Link>
             </li>
@@ -50,17 +44,25 @@ export default function UserBody({ children }) {
             </li> */}
             <li
               className={`${pathname === "/user" && "text-[#fff]"
-                } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
+                } text-[#999] hover:text-[#fff] cursor-pointer my-8 uppercase font-semibold`}
             >
               <Link href={"/user"}>Chi tiết tài khoản</Link>
             </li>
             <li
               className={`${pathname === "/user/reset-password" && "text-[#fff]"
-                } text-[#999] hover:text-[#fff] cursor-pointer my-8`}
+                } text-[#999] hover:text-[#fff] cursor-pointer my-8 uppercase font-semibold`}
             >
               <Link href={"/user/reset-password"}>Đặt lại mật khẩu</Link>
             </li>
+
           </ul>
+          <button
+            className="ml-10 mt-2 px-4 py-2 text-white bg-blue-600 border border-blue-600 rounded hover:bg-blue-700 hover:border-blue-700 font-bold uppercase"
+            onClick={handleSignOut}
+          >
+            Đăng xuất
+          </button>
+
         </div>
       </div>
 

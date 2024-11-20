@@ -6,6 +6,8 @@ import Image from "next/image";
 import Logo from "/assets/logo.svg";
 import { useRouter } from "next/router";
 
+
+
 export default function Header() {
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -18,31 +20,32 @@ export default function Header() {
           <li>
             <Link href="/" className="block logo-url"></Link>
           </li>
-          <li className="text-hover px-4">
+          <li className="pl-10 px-4">
             <Link
-              className={`text-md uppercase roboto font-extrabold ${
-                pathname[1] === "the-loai"
-                  ? "underline decoration-cyan-500 underline-offset-2"
-                  : ""
-              }`}
-              href="/the-loai"
+              className={`text-md uppercase roboto font-extrabold ${pathname[1] === "kham-pha" ? "text-cyan-500" : "text-gray-800"} hover:text-cyan-500`}
+              href="/kham-pha"
             >
               Khám phá
             </Link>
           </li>
-          {/* <li className="text-hover px-4">
+          <li className="px-4">
             <Link
-              className={`text-md uppercase roboto font-extrabold ${
-                pathname[1] === "-tabs"
-                  ? "underline decoration-red-500 underline-offset-2"
-                  : ""
-              }`}
-              href="/-tabs/our-story"
+              className={`text-md uppercase roboto font-extrabold ${pathname[1] === "gioi-thieu" ? "text-cyan-500" : "text-gray-800"} hover:text-cyan-500`}
+              href="/gioi-thieu"
             >
-              tin tức
+              Giới thiệu
             </Link>
-          </li> */}
+          </li>
+          <li className="px-4">
+            <Link
+              className={`text-md uppercase roboto font-extrabold ${pathname[1] === "lien-he" ? "text-cyan-500" : "text-gray-800"} hover:text-cyan-500`}
+              href="/lien-he"
+            >
+              Liên hệ
+            </Link>
+          </li>
         </ul>
+
         <NavMenu callback={() => setShow(!show)} />
       </div>
       <Menu show={show} callback={() => setShow(!show)} />

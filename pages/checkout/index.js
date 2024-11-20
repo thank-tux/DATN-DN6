@@ -13,6 +13,7 @@ import Payment from "@/components/payment";
 import EmptyCart from "@/components/empty-cart";
 import { useRouter } from "next/router";
 import Delivery from "@/components/delivery";
+import { validateOrder } from "@/feature/validation/valiorders";
 
 export default function Checkout() {
   const router = useRouter();
@@ -28,10 +29,33 @@ export default function Checkout() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [rule, setRule] = useState(false);
+  const [errorOrder, setValidationErrors] = useState(null);
   const [bank, setBank] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const handelPayment = async () => {
+    // Thu thập dữ liệu từ các input fields
+    const orderData = {
+      name,
+      phone,
+      email,
+      home,
+      wards,
+      district,
+      city,
+      rule,
+    };
+  
+    // Gọi hàm validateOrder để kiểm tra dữ liệu
+    const validationErrors = validateOrder(orderData);
+  
+    // Nếu có lỗi, cập nhật state lỗi và không thực hiện thanh toán
+    setValidationErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+  
+    // Tiến hành thanh toán nếu không có lỗi
     const result = {
       id_user: userInfo.uid,
       list_item: data.arrayCart,
@@ -43,15 +67,28 @@ export default function Checkout() {
         district,
         city,
       },
-      payment: "delivery",
+      payment: bank ? "delivery" : "visa",
+      customer_info: {
+        name,
+        phone,
+      },
     };
-    const res = await axios.post("/api/payment", result);
-    const newData = await res.data;
-    if (newData.result) {
-      emptyCart();
-      setShowModal(true);
+  
+    try {
+      const res = await axios.post("/api/payment", result);
+      const newData = await res.data;
+  
+      if (newData.result) {
+        emptyCart();
+        setShowModal(true);
+      }
+    } catch (error) {
+      console.error("Error processing payment:", error);
     }
   };
+  
+  
+
   useEffect(() => {
     async function fectchData() {
       const res = await axios.post("/api/item", {
@@ -59,7 +96,7 @@ export default function Checkout() {
         id: userInfo.uid,
       });
       const data = await res.data;
-      var value = null;
+      let value = 0;
       if (data) {
         data.arrayCart.forEach((element) => {
           value += element.quantity * element.price;
@@ -73,16 +110,17 @@ export default function Checkout() {
       fectchData();
     }
   }, [userInfo]);
+
   const handleGetLocation = async () => {
     await getPosition((value) => {
       const { result, error } = value;
       if (!error) {
-        console.log(result);
         setCity(result.city);
         setDistrict(result.locality);
       }
     });
   };
+
   if (loading) {
     return <Loader />;
   }
@@ -112,21 +150,25 @@ export default function Checkout() {
               value={home}
               callback={(text) => setHome(text)}
               name="Số nhà"
+              error={errorOrder && errorOrder.home}
             />
             <TextInput
               value={wards}
               callback={(text) => setWards(text)}
               name="Phường/Xã"
+              error={errorOrder && errorOrder.wards}
             />
             <TextInput
               value={district}
               callback={(text) => setDistrict(text)}
               name="Quận"
+              error={errorOrder && errorOrder.district}
             />
             <TextInput
               value={city}
               callback={(text) => setCity(text)}
               name="Thành phố"
+              error={errorOrder && errorOrder.city}
             />
           </div>
           <div className="bg-[#f8f7f5] my-2 p-4">
@@ -137,17 +179,20 @@ export default function Checkout() {
               value={name}
               callback={(text) => setName(text)}
               name="Họ tên của bạn"
+              error={errorOrder && errorOrder.name}
             />
             <TextInput
               value={phone}
               callback={(text) => setPhone(text)}
               name="Số điện thoại"
               type="number"
+              error={errorOrder && errorOrder.phone}
             />
             <TextInput
               value={email}
               callback={(text) => setEmail(text)}
               name="Địa chỉ email"
+              error={errorOrder && errorOrder.email}
             />
           </div>
           <div className="bg-[#f8f7f5] my-2 p-4">
@@ -184,6 +229,7 @@ export default function Checkout() {
                 setRule(true);
               }}
               type="checkbox"
+              error={errorOrder && errorOrder.rule}
             />
             <span>Tôi đã đọc và đồng ý với các</span>
             <span className="font-bold underline ml-1">

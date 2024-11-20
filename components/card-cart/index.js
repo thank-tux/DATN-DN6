@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Counter from "../counter";
 import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineLoading } from "react-icons/ai";
 import AuthContext from "@/feature/auth-context";
 import axios from "axios";
-import { deleteElementArray } from "@/feature/firebase/firebaseAuth";
+import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 
 export default function CardCart({
   img,
@@ -14,14 +14,36 @@ export default function CardCart({
   name,
   price,
   quantity,
+  initialVisible, // New prop for initial visibility status from products
   callback,
 }) {
   const { increment, decrement, userInfo } = useContext(AuthContext);
   const [show, setShow] = useState(true);
   const [value, setValue] = useState(quantity);
   const [loading, setLoading] = useState(false);
-  const [display, setDisplay] = useState(true);
-  
+  const [display, setDisplay] = useState(initialVisible); // Initialize with initialVisible prop
+
+  // Firestore reference
+  const db = getFirestore();
+
+  // Listen for visibility changes in the product document
+  useEffect(() => {
+    const docRef = doc(db, "products", id); // Adjust 'products' to your collection name
+    const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        // Update the display based on the visible field from Firestore
+        setDisplay(data.visible);
+        if (!data.visible) {
+          handleDelete(); // Optionally remove the item from cart if not visible
+        }
+      }
+    });
+
+    // Clean up the listener on unmount
+    return () => unsubscribe();
+  }, [id, db]);
+
   const handleDecrement = async () => {
     setLoading(true);
     const data = {
@@ -40,8 +62,10 @@ export default function CardCart({
     }
     setValue(value - 1);
     decrement();
-    callback(-price);
+    callback({ price: -price });
+
   };
+
   const handleIncrement = async () => {
     setLoading(true);
     const data = {
@@ -62,6 +86,7 @@ export default function CardCart({
     setValue(value + 1);
     callback({ price });
   };
+
   const handleDelete = async () => {
     setLoading(true);
     const res = await axios.put("/api/cart", { id, uid: userInfo.uid });
@@ -72,6 +97,9 @@ export default function CardCart({
       callback({ price, quantity });
     }
   };
+
+  if (!display) return null; // Don't render if not visible
+
   return (
     <div
       className={`${
@@ -82,15 +110,15 @@ export default function CardCart({
     >
       <Image src={img} alt="" width={200} height={200} />
       <div className="p-4 flex flex-col justify-between">
-        <h2 className="font-bold capitalize">{name}</h2>
+        <h2 className="font-bold uppercase">{name}</h2>
         <div>
-          <span
+          {/* <span
             onClick={() => setShow(!show)}
             className="flex text-xs text-[#333] mt-2 cursor-pointer flex items-center"
           >
             Xem chi tiết
             <IoIosArrowDown className={`w-5 h-5 ${!show && "rotate-180"}`} />
-          </span>
+          </span> */}
           <p
             className={`${
               show ? "hidden" : "block"
@@ -101,7 +129,7 @@ export default function CardCart({
         </div>
         <span
           onClick={handleDelete}
-          className="cursor-pointer hover:underline roboto"
+          className="cursor-pointer hover:underline roboto text-red-600"
         >
           Xóa
         </span>

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { FaClipboardList } from "react-icons/fa6";
 import NotificationDropdown from "../../components/Dropdowns/NotificationDropdown";
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
 
@@ -22,10 +22,11 @@ export default function Sidebar() {
             <i className="fas fa-bars"></i>
           </button>
 
-          {/* Brand */}
-          <Link href="/" className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
-            Nhà Sách Thiên Lý
+          <Link href="/" className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0 flex justify-center">
+            <img src="https://img.upanh.tv/2024/11/07/logoad.png" alt="Logo" className="w-auto h-16" />
           </Link>
+
+
 
           {/* User */}
           <ul className="md:hidden items-center flex flex-wrap list-none">
@@ -46,12 +47,12 @@ export default function Sidebar() {
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link href="/" className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
-                    Nhà Sách TN-6
+                    Nhà Sách Thiên Lý
                   </Link>
                 </div>
                 <div className="w-6/12 flex justify-end">
                   <button
-                    type="button" 
+                    type="button"
                     className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
                     onClick={() => setCollapseShow("hidden")}
                   >
@@ -75,16 +76,17 @@ export default function Sidebar() {
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              Admin Layout Pages
-            </h6>
+            <h5 className="md:min-w-full text-blueGray-500 text-ls uppercase font-bold block pt-1 pb-4 no-underline">
+              QUẢN LÝ
+            </h5>
             {/* Navigation */}
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               {[
-                { href: "/admin/", icon: "fas fa-tv", label: "Tổng quan" },
+                { href: "/admin/dashboard", icon: "fas fa-tv", label: "Tổng quan" },
                 { href: "/admin/categories", icon: "fas fa-list", label: "Danh mục-Thể loại" },
                 { href: "/admin/products", icon: "fas fa-book", label: "Sách" },
                 { href: "/admin/users", icon: "fas fa-user", label: "Người dùng" },
+                { href: "/admin/orders", icon: "fa-solid fa-check", label: "Đơn hàng" },
               ].map(({ href, icon, label }) => (
                 <li className="items-center" key={href}>
                   <Link href={href} className={`text-xs uppercase py-3 font-bold block ${router.pathname.includes(href) ? "text-lightBlue-500 hover:text-lightBlue-600" : "text-blueGray-700 hover:text-blueGray-500"}`}>
@@ -98,21 +100,21 @@ export default function Sidebar() {
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              Auth Layout Pages
+            <h6 className="md:min-w-full text-blueGray-500 text-ls uppercase font-bold block pt-1 pb-4 no-underline">
+              Thống kê
             </h6>
             {/* Navigation */}
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
-                <Link href="/auth/login" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i>
-                  Login
+                <Link href="/admin/thong-ke/doanh-thu" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fa fa-money text-blueGray-400 mr-2 text-sm"></i>
+                  Doanh thu
                 </Link>
               </li>
               <li className="items-center">
-                <Link href="/auth/register" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                <Link href="/thong-ke/don-hang" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i>
-                  Register
+                  Đơn hàng
                 </Link>
               </li>
             </ul>
@@ -120,11 +122,11 @@ export default function Sidebar() {
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            {/* <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               No Layout Pages
-            </h6>
+            </h6> */}
             {/* Navigation */}
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+            {/* <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
                 <Link href="/landing" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-newspaper text-blueGray-400 mr-2 text-sm"></i>
@@ -137,16 +139,16 @@ export default function Sidebar() {
                   Profile Page
                 </Link>
               </li>
-            </ul>
+            </ul> */}
 
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
+            {/* <hr className="my-4 md:min-w-full" /> */}
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            {/* <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Documentation
-            </h6>
+            </h6> */}
             {/* Navigation */}
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+            {/* <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               {[
                 { href: "https://www.creative-tim.com/learning-lab/tailwind/nextjs/colors/notus", icon: "fas fa-paint-brush", label: "Styles" },
                 { href: "https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus", icon: "fab fa-css3-alt", label: "CSS Components" },
@@ -164,7 +166,7 @@ export default function Sidebar() {
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
         </div>
       </nav>

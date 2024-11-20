@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import CardBody from "../card-body";
+import Link from "next/link";
 import DownloadApp from "../download-app";
 import Image from "next/image";
 
@@ -25,16 +26,20 @@ export default function Footer() {
                 Về chúng tôi
               </h2>
               <ul>
+
                 <li className="text-sm capitalize">
-                  <span className="hover:text-white cursor-pointer">
+                  <a href="/gioi-thieu" className="hover:text-white cursor-pointer">
                     Giới thiệu
-                  </span>
+                  </a>
                 </li>
+
+
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
                     Tin tức
                   </span>
                 </li>
+         
               </ul>
             </div>
             <div className="p-4">
@@ -73,9 +78,7 @@ export default function Footer() {
             </div>
             <DownloadApp />
           </div>
-          <span className="text-xs text-center block py-10">
-            Copyright © 2024 D6 Vietnam
-          </span>
+  
           <hr />
           <div className="flex justify-between py-10">
             <div className="p-4">

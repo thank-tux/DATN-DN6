@@ -19,7 +19,9 @@ export default function SearchResult() {
     if (query) {
       const fetchResults = async () => {
         const results = await searchProductsByName(query);
-        setSearchResults(results);
+        // Lọc ra những sản phẩm có `isVisible` là `true`
+        const visibleResults = results.filter((products) => products.visible);
+        setSearchResults(visibleResults);
       };
       fetchResults();
     }
@@ -36,19 +38,21 @@ export default function SearchResult() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {searchResults.length > 0 ? (
             searchResults.map((product) => (
-              <div key={product.id} className="border p-2 w-[200px] h-[400px] rounded-lg shadow-md flex flex-col justify-between">
-                <img
-                  src={product.img}
-                  alt={product.name}
-                  className="w-full h-[300px] mb-2 object-cover rounded" // Điều chỉnh chiều cao hình ảnh
-                />
+              <div key={product.id} className="border p-2 w-[250px] h-[400px] rounded-lg shadow-md flex flex-col justify-between">
+                <Link href={`/kham-pha/order/${product.id}`}>
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    className="w-full h-[300px] mb-2 object-cover rounded" // Điều chỉnh chiều cao hình ảnh
+                  />
+                </Link>
                 <div className="flex flex-col items-center mb-1">
                   <h3 className="text-md font-bold text-center uppercase"> {/* Chỉnh kích thước font cho tên sản phẩm thành nhỏ hơn */}
-                    <Link href={`/the-loai/order/${product.id}`} className="text-blue-600 hover:underline">
+                    <Link href={`/kham-pha/order/${product.id}`} className="font-semibold text-black-600 hover:text-green-600">
                       {product.name}
                     </Link>
                   </h3>
-                  <p className="text-lg font-semibold text-red-600 text-center uppercase"> {/* Thay đổi màu chữ thành đỏ cho giá tiền */}
+                  <p className="text-lg font-bold text-red-600 text-center uppercase"> {/* Thay đổi màu chữ thành đỏ cho giá tiền */}
                     {formatPrice(product.price)} VND
                   </p>
                 </div>

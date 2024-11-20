@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef  } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Loader from "@/components/loader";
@@ -7,7 +7,9 @@ import Counter from "@/components/counter";
 import AuthContext from "@/feature/auth-context";
 import CardBook from "@/components/card-book";
 import ListBody from "@/components/list-body";
-
+import Slider from "react-slick";
+import { GrPrevious } from "react-icons/gr";
+import { GrNext } from "react-icons/gr";
 
 const LoginModal = ({ onClose }) => {
   const router = useRouter();
@@ -45,7 +47,8 @@ export default function Order() {
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [showLoginModal, setShowLoginModal] = useState(false);
-
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slickRef = useRef(null);
 
   const fecthData = async () => {
     const res = await axios.post("/api/item", { id, name: "products" });
@@ -54,6 +57,14 @@ export default function Order() {
     setLoading(true);
     // Gọi hàm lấy sản phẩm liên quan dựa trên các danh mục của sản phẩm hiện tại
     fecthRelatedProducts(data.categories);
+  };
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: false,
+
   };
 
   const fecthRelatedProducts = async (categories) => {
@@ -82,8 +93,9 @@ export default function Order() {
     if (result === "success") {
       increment(quantity);
     }
-    // router.push("/thuc-don");
+    
   };
+
 
   useEffect(() => {
     fecthData();
@@ -131,9 +143,9 @@ export default function Order() {
               <h3 className="text-2xl font-semibold uppercase mb-2">
                 Chi tiết sản phẩm
               </h3>
-              <ul className="text-gray-600 text-lg leading-8">
+              <ul className="text-gray-600 text-lg leading-8 capitalize">
                 <li><strong>Tên sách:</strong> {product.name}</li>
-                <li><strong>Tác giả:</strong> {product.author || "Đang cập nhật"}</li>
+                <li className="capitalize"><strong>Tác giả:</strong> {product.author || "Đang cập nhật"}</li>
                 <li className="capitalize">
                   <strong>Thể loại:</strong>{" "}
                   {product.categories
@@ -186,7 +198,7 @@ export default function Order() {
           <h3 className="text-2xl font-bold uppercase mb-4">Thông tin chi tiết</h3>
           <div className="border border-gray-300 p-6 rounded-lg shadow-md">
 
-            <ul className="list-disc list-inside text-gray-600 text-lg">
+            <ul className="list-disc list-inside text-gray-600 text-lg capitalize">
               <li><strong>Tác giả:</strong> {product.author || "Đang cập nhật"}</li>
               <li><strong>Nhà xuất bản:</strong> {product.publisher || "Đang cập nhật"}</li>
               <li><strong>Ngày phát hành:</strong> {product.releaseDate || "Đang cập nhật"}</li>
@@ -197,13 +209,35 @@ export default function Order() {
 
       {/* Phần "Có thể bạn cũng thích" */}
       {relatedProducts.length > 0 && (
-        <div className="mt-12">
+        <div className="mt-12 relative">
           <h3 className="text-3xl font-bold uppercase mb-6">Có thể bạn cũng thích</h3>
-          <ListBody>
-            {relatedProducts.map((item) => (
-              <CardBook key={item.id} {...item} />
+
+          {/* Nút điều hướng */}
+          <div className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10">
+            <button
+              className="transform -translate-y-[50%] w-10 h-10 flex items-center justify-center bg-gray-300 hover:bg-cyan-500 text-white rounded-md transition-colors"
+              onClick={() => slickRef.current.slickPrev()}
+            >
+           <GrPrevious />
+            </button>
+          </div>
+          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10">
+            <button
+              className="transform -translate-y-[50%] w-10 h-10 flex items-center justify-center bg-gray-300 hover:bg-cyan-500 text-white rounded-md transition-colors"
+              onClick={() => slickRef.current.slickNext()}
+            >
+            <GrNext />
+            </button>
+          </div>
+
+          {/* Slider */}
+          <Slider ref={slickRef} {...settings}>
+            {relatedProducts.filter((item) => item.visible).map((item) => (
+              <div key={item.id}>
+                <CardBook {...item} />
+              </div>
             ))}
-          </ListBody>
+          </Slider>
         </div>
       )}
     </div>
