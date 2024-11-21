@@ -15,7 +15,7 @@ export default function CardList({ img, name, path }) {
         />
       </div>
       <Link
-        href={`/kham-pha?id=${path}`}
+        href={`/the-loai/${path}`}
         className="flex cursor-pointer flex-row items-center p-3 text-sm font-bold capitalize"
       >
         {name} <GrFormNext className="w-6 h-6" />
