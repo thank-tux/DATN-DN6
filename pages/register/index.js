@@ -22,20 +22,22 @@ export default function Register() {
 
   const handleRegister = async () => {
     const role = account === "lamadmin@gmail.com" ? "admin" : "user"; // Define role here
+    const lock = "false";
     const listInput = [
       { type: "password", input: password },
       { type: "account", input: account },
       { type: "phone", input: phone },
       { type: "name", input: name },
       { type: "role", input: role },
+      { type: "lock", input: lock },
     ];
     setErrorInput(validate(listInput));
     if (Object.keys(validate(listInput)).length === 0) {
-      postData(role); // Pass role to postData
+      postData(role, lock); // Pass role to postData
     }
   };
 
-  const postData = async (role) => {
+  const postData = async (role, lock) => {
     setLoading(true);
     try {
       const res = await axios.post("/api/auth", {
@@ -44,6 +46,7 @@ export default function Register() {
         phone,
         name,
         role,
+        lock,
       });
       const data = await res.data;
       setLoading(false);
@@ -53,7 +56,7 @@ export default function Register() {
           router.push("/login");
         }, 2000); // Redirect after 2 seconds
       } else {
-        alert("Tài khoản đã có người sử dụng");
+        alert("Tài khoản đã có người sử dụng, Hoac khong the truy cap");
       }
     } catch (error) {
       console.error("Error creating account:", error);
@@ -69,13 +72,13 @@ export default function Register() {
 
   return (
     <LayoutForm>
-      <h2 className="oswald uppercase text-4xl mt-10">Tạo tài khoản mới</h2>
+      <h2 className="oswald uppercase text-4xl mt-10"> Tạo tài khoản mới </h2>{" "}
       <TextInput
         name="Nhập họ tên đầy đủ"
         value={name}
         callback={(text) => setName(text)}
         error={errorInput && errorInput.name}
-      />
+      />{" "}
       <TextInput
         name="Nhập số điện thoại"
         value={phone}
@@ -88,7 +91,7 @@ export default function Register() {
         value={account}
         error={errorInput && errorInput.account}
         callback={(text) => setAccount(text)}
-      />
+      />{" "}
       <TextInput
         name="Nhập mật khẩu"
         value={password}
@@ -101,20 +104,23 @@ export default function Register() {
           type="checkbox"
           value={checkRule}
           onChange={() => setCheckRule(!checkRule)}
-        />
-        <span>Tôi đã đọc và đồng ý với</span>
-        <span className="font-bold ml-1 capitalize">chính sách hoạt động của</span>
+        />{" "}
+        <span> Tôi đã đọc và đồng ý với </span>{" "}
+        <span className="font-bold ml-1 capitalize">
+          {" "}
+          chính sách hoạt động của{" "}
+        </span>{" "}
         {checkRule === false && (
           <span className="absolute text-xs text-red-400 bottom-[-20px]">
-            Bạn chưa đồng ý với điều khoản dịch vụ
+            Bạn chưa đồng ý với điều khoản dịch vụ{" "}
           </span>
-        )}
-      </div>
+        )}{" "}
+      </div>{" "}
       <button
         onClick={handleRegister}
         className="relative w-[100%] p-4 bg-[#e4002b] rounded-full text-white font-bold roboto btn-shadow my-4"
       >
-        Tạo tài khoản
+        Tạo tài khoản{" "}
         <div
           className={`${
             !loading ? "hidden" : "block"
@@ -122,22 +128,21 @@ export default function Register() {
         >
           <AiOutlineLoading
             className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-red-500`}
-          />
-        </div>
-      </button>
+          />{" "}
+        </div>{" "}
+      </button>{" "}
       <div className="text-center">
-        <span className="text-sm">Có tài khoản ?</span>
+        <span className="text-sm"> Có tài khoản ? </span>{" "}
         <Link className="font-semibold text-sm hover:underline" href={"/login"}>
-          Đăng nhập
-        </Link>
-      </div>
+          Đăng nhập{" "}
+        </Link>{" "}
+      </div>{" "}
       {showModal && (
         <ModalRegister
           message="Tạo tài khoản thành công"
           onClose={() => setShowModal(false)}
         />
-      )}
+      )}{" "}
     </LayoutForm>
-    
   );
 }
