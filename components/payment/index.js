@@ -34,7 +34,7 @@ export default function Payment({ value = 50000 }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center">
       {" "}
       {loading ? (
         <p> Loading payment URL... </p>
@@ -43,7 +43,7 @@ export default function Payment({ value = 50000 }) {
           href={paymentUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+          className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
         >
           Go to Payment{" "}
         </a>

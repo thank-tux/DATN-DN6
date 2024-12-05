@@ -14,6 +14,7 @@ import EmptyCart from "@/components/empty-cart";
 import { useRouter } from "next/router";
 import Delivery from "@/components/delivery";
 import { validateOrder } from "@/feature/validation/valiorders";
+import handlercallbackzalo from "../api/callbackzalo";
 
 export default function Checkout() {
   const router = useRouter();
@@ -237,7 +238,7 @@ export default function Checkout() {
             </span>{" "}
           </div>{" "}
           {bank === false ? (
-            <Payment callback={handelPayment} value={total + 10} />
+            <Payment callback={handlercallbackzalo} value={total + 10} />
           ) : (
             <div
               onClick={handelPayment}

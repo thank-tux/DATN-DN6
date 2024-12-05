@@ -2,6 +2,7 @@
 import axios from "axios";
 import moment from "moment";
 import CryptoJS from "crypto-js";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 const config = {
   app_id: "2553",
@@ -17,7 +18,9 @@ export default async function handler(req, res) {
   const { value = 50000 } = req.body; // Giá trị thanh toán từ frontend
   const transID = Math.floor(Math.random() * 1000000);
 
-  const embed_data = { redirecturl: "localhost:3000" };
+  const embed_data = {
+    redirecturl: "facebook.com",
+  };
   const order = {
     app_id: config.app_id,
     app_trans_id: `${moment().format("YYMMDD")}_${transID}`,
@@ -26,9 +29,9 @@ export default async function handler(req, res) {
     item: JSON.stringify([]),
     embed_data: JSON.stringify(embed_data),
     amount: value,
-    callback_url: "https://b074-1-53-37-194.ngrok-free.app/callback",
     description: `Payment for the order #${transID}`,
     bank_code: "",
+    callback_url: `https://124d-112-197-201-83.ngrok-free.app/api/callbackzalo`,
   };
 
   const data =
