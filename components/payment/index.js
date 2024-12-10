@@ -1,50 +1,20 @@
-import GooglePayButton from "@google-pay/button-react";
+import React from "react";
 
 export default function Payment({ value = 0, callback }) {
+  const handleVNPayPayment = async () => {
+    try {
+      await callback(); // Gọi hàm thanh toán từ checkout
+    } catch (error) {
+      console.error("Lỗi khi xử lý thanh toán VNPay:", error);
+    }
+  };
+
   return (
-    <GooglePayButton
-      className="my-2 w-[100%]"
-      environment="TEST"
-      paymentRequest={{
-        apiVersion: 2,
-        apiVersionMinor: 0,
-        allowedPaymentMethods: [
-          {
-            type: "CARD",
-            parameters: {
-              allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-              allowedCardNetworks: ["MASTERCARD", "VISA"],
-            },
-            tokenizationSpecification: {
-              type: "PAYMENT_GATEWAY",
-              parameters: {
-                gateway: "example",
-                gatewayMerchantId: "exampleGatewayMerchantId",
-              },
-            },
-          },
-        ],
-        merchantInfo: {
-          merchantId: "12345678901234567890",
-          merchantName: "Demo Merchant",
-        },
-        transactionInfo: {
-          totalPriceStatus: "FINAL",
-          totalPriceLabel: "Total",
-          totalPrice: value.toString(),
-          currencyCode: "VND",
-          countryCode: "VN",
-        },
-        shippingAddressRequired: true,
-        callbackIntents: ["SHIPPING_ADDRESS", "PAYMENT_AUTHORIZATION"],
-      }}
-      onLoadPaymentData={(paymentRequest) => {
-        console.log("load payment data", paymentRequest);
-      }}
-      onPaymentAuthorized={callback}
-      onPaymentDataChanged={(paymentdata) => {
-        console.log(paymentdata);
-      }}
-    />
+    <button
+      className="my-2 w-full px-4 py-2 bg-blue-600 text-white font-bold uppercase rounded-lg"
+      onClick={handleVNPayPayment}
+    >
+      Thanh toán VNPay ({value.toLocaleString("vi-VN")}₫)
+    </button>
   );
 }

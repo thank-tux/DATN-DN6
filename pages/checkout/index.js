@@ -9,14 +9,11 @@ import { getPosition } from "@/feature/get-location";
 import { MdOutlinePayments, MdPayment } from "react-icons/md";
 import { getDate } from "@/utils";
 import Modal from "@/components/modal";
-import Payment from "@/components/payment";
-import EmptyCart from "@/components/empty-cart";
-import { useRouter } from "next/router";
 import Delivery from "@/components/delivery";
+import EmptyCart from "@/components/empty-cart";
 import { validateOrder } from "@/feature/validation/valiorders";
 
 export default function Checkout() {
-  const router = useRouter();
   const { userInfo, emptyCart } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +31,6 @@ export default function Checkout() {
   const [showModal, setShowModal] = useState(false);
 
   const handelPayment = async () => {
-    // Thu thập dữ liệu từ các input fields
     const orderData = {
       name,
       phone,
@@ -45,17 +41,14 @@ export default function Checkout() {
       city,
       rule,
     };
-  
-    // Gọi hàm validateOrder để kiểm tra dữ liệu
+
     const validationErrors = validateOrder(orderData);
-  
-    // Nếu có lỗi, cập nhật state lỗi và không thực hiện thanh toán
     setValidationErrors(validationErrors);
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
-  
-    // Tiến hành thanh toán nếu không có lỗi
+
     const result = {
       id_user: userInfo.uid,
       list_item: data.arrayCart,
@@ -67,36 +60,39 @@ export default function Checkout() {
         district,
         city,
       },
-      payment: bank ? "delivery" : "visa",
+      payment: bank ? "delivery" : "VNPay",
       customer_info: {
         name,
         phone,
       },
     };
-  
+
     try {
       const res = await axios.post("/api/payment", result);
       const newData = await res.data;
-  
+
       if (newData.result) {
-        emptyCart();
-        setShowModal(true);
+        if (bank === false && newData.paymentUrl) {
+          window.location.href = newData.paymentUrl; // Chuyển đến VNPay
+        } else {
+          emptyCart();
+          setShowModal(true); // Hiển thị thông báo đặt hàng thành công
+        }
       }
     } catch (error) {
       console.error("Error processing payment:", error);
     }
   };
-  
-  
 
   useEffect(() => {
-    async function fectchData() {
+    async function fetchData() {
       const res = await axios.post("/api/item", {
         name: "cart",
         id: userInfo.uid,
       });
       const data = await res.data;
       let value = 0;
+
       if (data) {
         data.arrayCart.forEach((element) => {
           value += element.quantity * element.price;
@@ -106,8 +102,9 @@ export default function Checkout() {
       }
       setLoading(false);
     }
+
     if (userInfo) {
-      fectchData();
+      fetchData();
     }
   }, [userInfo]);
 
@@ -121,12 +118,9 @@ export default function Checkout() {
     });
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-  if (!data) {
-    return <EmptyCart />;
-  }
+  if (loading) return <Loader />;
+  if (!data) return <EmptyCart />;
+
   return (
     <div className="min-h-screen relative container m-auto flex">
       <div className="flex-60">
@@ -134,12 +128,9 @@ export default function Checkout() {
           <h2 className="text-4xl oswald flex items-center justify-center">
             <AiFillLock /> <span>Thông tin đặt hàng</span>
           </h2>
+
           <div className="bg-[#f8f7f5] my-2 p-4">
-            <h2 className="oswald uppercase text-xl :">Thời gian giao hàng:</h2>
-            <span>Giao ngay</span>
-          </div>
-          <div className="bg-[#f8f7f5] my-2 p-4">
-            <h2 className="oswald uppercase text-xl :">Được giao đến:</h2>
+            <h2 className="oswald uppercase text-xl">Được giao đến:</h2>
             <button
               onClick={handleGetLocation}
               className="px-4 mt-2 btn-shadow py-2 text-white font-bold uppercase text-[15px] rounded-full block bg-red-600"
@@ -148,137 +139,116 @@ export default function Checkout() {
             </button>
             <TextInput
               value={home}
-              callback={(text) => setHome(text)}
+              callback={setHome}
               name="Số nhà"
-              error={errorOrder && errorOrder.home}
+              error={errorOrder?.home}
             />
             <TextInput
               value={wards}
-              callback={(text) => setWards(text)}
+              callback={setWards}
               name="Phường/Xã"
-              error={errorOrder && errorOrder.wards}
+              error={errorOrder?.wards}
             />
             <TextInput
               value={district}
-              callback={(text) => setDistrict(text)}
+              callback={setDistrict}
               name="Quận"
-              error={errorOrder && errorOrder.district}
+              error={errorOrder?.district}
             />
             <TextInput
               value={city}
-              callback={(text) => setCity(text)}
+              callback={setCity}
               name="Thành phố"
-              error={errorOrder && errorOrder.city}
+              error={errorOrder?.city}
             />
           </div>
+
           <div className="bg-[#f8f7f5] my-2 p-4">
-            <h2 className="oswald uppercase text-xl :">
-              Thêm thông tin chi tiết:
-            </h2>
+            <h2 className="oswald uppercase text-xl">Thông tin khách hàng:</h2>
             <TextInput
               value={name}
-              callback={(text) => setName(text)}
+              callback={setName}
               name="Họ tên của bạn"
-              error={errorOrder && errorOrder.name}
+              error={errorOrder?.name}
             />
             <TextInput
               value={phone}
-              callback={(text) => setPhone(text)}
+              callback={setPhone}
               name="Số điện thoại"
               type="number"
-              error={errorOrder && errorOrder.phone}
+              error={errorOrder?.phone}
             />
             <TextInput
               value={email}
-              callback={(text) => setEmail(text)}
+              callback={setEmail}
               name="Địa chỉ email"
-              error={errorOrder && errorOrder.email}
+              error={errorOrder?.email}
             />
           </div>
+
           <div className="bg-[#f8f7f5] my-2 p-4">
-            <h2 className="oswald uppercase text-xl :">
-              phương thức thanh toán:
-            </h2>
+            <h2 className="oswald uppercase text-xl">Phương thức thanh toán:</h2>
             <div
               onClick={() => setBank(true)}
               className={`${
-                bank
-                  ? "border-black bg-black text-white"
-                  : "text-black border-black"
-              } cursor-pointer font-bold flex items-center justify-between my-2 border-2 px-2 py-4 rounded-[6px]`}
+                bank ? "bg-black text-white" : "text-black"
+              } cursor-pointer flex items-center justify-between border-2 px-2 py-4 rounded-[6px]`}
             >
-              <span>Thanh toán khi nhận hàng</span>
+              Thanh toán khi nhận hàng
               <MdOutlinePayments className="w-7 h-7" />
             </div>
             <div
               onClick={() => setBank(false)}
               className={`${
-                bank
-                  ? "text-black border-black"
-                  : "border-black bg-black text-white"
-              } cursor-pointer font-bold flex items-center justify-between my-2  border-2 px-2 py-4 rounded-[6px]`}
+                !bank ? "bg-black text-white" : "text-black"
+              } cursor-pointer flex items-center justify-between border-2 px-2 py-4 rounded-[6px]`}
             >
-              Thanh toán visa
+              Thanh toán VNPay
               <MdPayment className="w-7 h-7" />
             </div>
           </div>
+
           <div>
             <input
-              value={rule}
-              onChange={() => {
-                setRule(true);
-              }}
               type="checkbox"
-              error={errorOrder && errorOrder.rule}
+              checked={rule}
+              onChange={() => setRule(!rule)}
             />
-            <span>Tôi đã đọc và đồng ý với các</span>
-            <span className="font-bold underline ml-1">
-              Chính Sách Hoạt Động của Nhà sách
+            <span>
+              Tôi đã đọc và đồng ý với các{" "}
+              <span className="font-bold underline ml-1">
+                Chính sách hoạt động
+              </span>
             </span>
           </div>
-          {bank === false ? (
-            <Payment callback={handelPayment} value={total + 10} />
-          ) : (
-            <div
-              onClick={handelPayment}
-              className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
-            >
-              Đặt hàng
-            </div>
-          )}
+
+          <div
+            onClick={handelPayment}
+            className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
+          >
+            Đặt hàng
+          </div>
         </div>
       </div>
+
       <div className="flex-40 p-2">
         <div className="sticky box-shadow p-4 rounded-xl top-[200px]">
-          <h2 className="oswald uppercase text-xl :">Tóm tắt đơn hàng:</h2>
+          <h2 className="oswald uppercase text-xl">Tóm tắt đơn hàng:</h2>
           <ul className="my-2">
             {data.arrayCart.map((item) => (
-              <li
-                key={item.id}
-                className="flex justify-between capitalize roboto"
-              >
+              <li key={item.id} className="flex justify-between">
                 <span>{item.name}</span>
                 <span>{item.quantity}</span>
               </li>
             ))}
           </ul>
-          <hr />
-          <h2 className="oswald uppercase text-lg text-[14px]">Thanh toán:</h2>
           <div className="my-2 flex justify-between">
-            <span>Tổng đơn hàng:</span>
-            <span>{formatMoney(total)}₫</span>
-          </div>
-          <div className="my-2 flex justify-between">
-            <span>Phí giao hàng:</span>
-            <span>{formatMoney(10000)}₫</span>
-          </div>
-          <hr />
-          <div className="my-2 flex justify-between oswald">
             <span>Tổng thanh toán:</span>
             <span>{formatMoney(total + 10000)}₫</span>
           </div>
         </div>
       </div>
+
       {showModal && (
         <Modal show={showModal}>
           <Delivery />
